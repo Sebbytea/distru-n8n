@@ -2,85 +2,139 @@
 
 # n8n-nodes-distru
 
-This repository contains n8n community nodes to integrate with **Distru**, a full-stack inventory, warehouse, and order management platform. These nodes allow you to automate workflows interacting with the Distru API directly inside n8n.
+This repository contains n8n community nodes to integrate with **Distru**, a full-stack inventory, warehouse, and order management platform designed specifically for the cannabis industry. These nodes enable seamless automation of your Distru workflows directly within n8n.
 
-To share your own nodes with the community, you must package them as an npm module, and [publish it on the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## 🎯 Features
 
----
+The package currently includes the following nodes:
 
-## Prerequisites
+### DistruOrder
+- Create new sales orders
+- Retrieve orders by ID
+- Get multiple orders with filtering options
+- Manage order statuses and details
 
-Make sure your development machine has the following installed:
+### DistruCompany
+- Fetch company information
+- Manage company records
+- Search and filter companies
+- Handle company-related operations
 
-- [Git](https://git-scm.com/downloads)
-- [Node.js](https://nodejs.org/en/) version 18 or higher and [pnpm](https://pnpm.io/) package manager  
-  *Install using nvm (Node Version Manager) on Linux, Mac, or WSL: [https://github.com/nvm-sh/nvm](https://github.com/nvm-sh/nvm)*  
-  *Windows users can refer to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows)*  
-- Install n8n globally with:
+### DistruProduct
+- Create and manage products
+- Retrieve product details
+- Search product catalog
+- Handle product inventory operations
 
-  ```
-  pnpm install -g n8n
-  ```
+## 🚀 Getting Started
 
-- Recommended: follow the official n8n guide on [setting up a Node Development Environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/) for full details.
+### Prerequisites
 
----
+Before you begin, ensure you have:
+- [Node.js](https://nodejs.org/en/) version 18.12 or higher
+- [pnpm](https://pnpm.io/) package manager (version 9.1 or higher)
+- [n8n](https://n8n.io/) installed globally (`pnpm install -g n8n`)
+- A Distru account with API access
 
-## Using this package
+### Installation
 
-Here is how to quickly get started working with the Distru integration nodes:
-
-1. Clone this repository:
-
+1. Install the package in your n8n installation:
+   ```bash
+   pnpm install n8n-nodes-distru
    ```
+
+2. Restart your n8n instance to load the new nodes.
+
+### Configuration
+
+1. In your n8n instance, go to **Settings** > **Credentials**
+2. Click on **New Credential**
+3. Search for "Distru API"
+4. Enter your Distru API token
+5. (Optional) Toggle "Use Staging Environment" if you want to use the staging API
+
+## 🔧 Development Setup
+
+If you want to contribute or modify these nodes:
+
+1. Clone the repository:
+   ```bash
    git clone https://github.com/Sebbytea/distru-n8n.git
    cd distru-n8n
    ```
 
 2. Install dependencies:
-
-   ```
+   ```bash
    pnpm install
    ```
 
-3. Open the project in your preferred editor.
-
-4. Explore the source code in `/nodes` and `/credentials`. These contain the Distru nodes and API credential setup.
-
-5. Update `package.json` for any personal project metadata if you fork or create your own package.
-
-6. Use lint commands to keep code quality:
-
-   ```
-   pnpm lint
-   pnpm lintfix
-   ```
-
-7. Build the package before running or publishing:
-
-   ```
+3. Build the package:
+   ```bash
    pnpm build
    ```
 
-8. Test your nodes locally inside n8n. Refer to [Run Your Node Locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for detailed instructions.
+4. Link to your local n8n installation:
+   ```bash
+   pnpm link
+   ```
 
-9. When ready, publish your node package to npm following the npm guidelines: [Publishing npm Packages](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+## 📚 Usage Examples
+
+### Creating a Sales Order
+
+1. Add the **DistruOrder** node to your workflow
+2. Select the "Create" operation
+3. Configure required fields:
+   - Company ID
+   - Billing Location ID
+   - Shipping Location ID
+   - Order Items
+4. Optional: Set additional fields like due date, delivery date, and notes
+
+### Managing Products
+
+1. Use the **DistruProduct** node
+2. Choose from available operations:
+   - Create new products
+   - Update existing products
+   - Search product catalog
+   - Manage inventory levels
+
+### Company Operations
+
+1. Implement the **DistruCompany** node
+2. Available operations include:
+   - Fetch company details
+   - Search companies
+   - Manage company relationships
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE.md).
+
+## 🔗 Useful Links
+
+- [Distru API Documentation](https://docs.distru.com/api)
+- [n8n Community Nodes Documentation](https://docs.n8n.io/integrations/community-nodes/)
+- [n8n Community Forum](https://community.n8n.io/)
+
+## 📫 Support
+
+For support with these nodes, please:
+1. Check the [GitHub Issues](https://github.com/Sebbytea/distru-n8n/issues) for existing problems and solutions
+2. Create a new issue if your problem isn't already reported
+3. Contact Distru support for API-specific questions
 
 ---
 
-## Documentation
-
-- Distru API documentation: [https://docs.distru.com/api](https://docs.distru.com/api)  
-- n8n node creation guide: [https://docs.n8n.io/integrations/creating-nodes/](https://docs.n8n.io/integrations/creating-nodes/)  
-- Node development environment setup: [https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/)  
-- Testing custom nodes: [https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/)
-
----
-
-## License
-
-[MIT](LICENSE.md)
-
----
-
-Let me know if you want help customizing for your particular repo setup or adding usage examples!
+Made with ❤️ by Sebastian Tidwell
