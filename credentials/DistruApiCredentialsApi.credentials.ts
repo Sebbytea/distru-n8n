@@ -67,10 +67,11 @@ export class DistruApiCredentialsApi implements ICredentialType {
 		const baseURL = credentials.useStaging ? 'https://staging.distru.com/public/v1' : 'https://app.distru.com/public/v1';
 		const url = '/products?page[number]=1&page[size]=1';
 
-		Logger.debug('Testing Distru API credentials', {
-			baseURL,
-			hasToken: !!credentials.apiToken,
+		// Log the raw token (for debugging only)
+		Logger.debug('Raw API Token', {
+			token: credentials.apiToken,
 			tokenLength: credentials.apiToken.length,
+			tokenPrefix: credentials.apiToken.substring(0, 10) + '...',
 		});
 
 		const request = {
@@ -80,11 +81,13 @@ export class DistruApiCredentialsApi implements ICredentialType {
 			},
 		};
 
-		Logger.debug('Sending test request', {
+		// Log the full request details
+		Logger.debug('Full request details', {
+			method: 'GET',
 			url: baseURL + url,
 			headers: {
 				...request.headers,
-				Authorization: 'Bearer [REDACTED]',
+				Authorization: `Bearer ${credentials.apiToken.substring(0, 10)}...`,
 			},
 		});
 
@@ -99,25 +102,39 @@ export class DistruApiCredentialsApi implements ICredentialType {
 				headers[key] = value;
 			});
 
-			Logger.debug('Received test response', {
+			// Log the full response details
+			Logger.debug('Full response details', {
 				status: response.status,
 				statusText: response.statusText,
 				headers,
+				url: response.url,
 			});
 
 			if (!response.ok) {
 				const errorText = await response.text();
-				Logger.error('Test request failed', {
+				Logger.error('Detailed error response', {
 					status: response.status,
 					statusText: response.statusText,
 					error: errorText,
+					requestUrl: baseURL + url,
+					requestHeaders: {
+						...request.headers,
+						Authorization: `Bearer ${credentials.apiToken.substring(0, 10)}...`,
+					},
 				});
-				throw new Error(`Test request failed: ${response.status} ${response.statusText}`);
+				throw new Error(`Test request failed: ${response.status} ${response.statusText}\n${errorText}`);
 			}
 
 			return await response.json();
 		} catch (error) {
-			Logger.error('Test request error', { error });
+			Logger.error('Test request error', { 
+				error,
+				requestUrl: baseURL + url,
+				requestHeaders: {
+					...request.headers,
+					Authorization: `Bearer ${credentials.apiToken.substring(0, 10)}...`,
+				},
+			});
 			throw error;
 		}
 	}
