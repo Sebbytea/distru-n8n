@@ -1,12 +1,12 @@
 {
   "name": "n8n-nodes-distru",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "This is a native n8n node package for a software called Distru",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/Sebbytea/distru-n8n",
   "author": {
     "name": "Sebastian Tidwell",
     "email": "Sebastian@distru.com"
