@@ -5,24 +5,25 @@ import {
 	ICredentialTestRequest,
 } from 'n8n-workflow';
 
-export class DistruApiCredentials implements ICredentialType {
+export class DistruApiCredentialsApi implements ICredentialType {
 	name = 'distruApi';
 	displayName = 'Distru API';
 	documentationUrl = 'https://apidocs.distru.dev';
 	properties: INodeProperties[] = [
 		{
-			displayName: 'API Token',
-			name: 'apiToken',
+			displayName: 'API Key',
+			name: 'apiKey',
 			type: 'string',
+			typeOptions: {
+				password: true,
+			},
 			default: '',
-      description: 'Your Distru API Bearer token',
-			required: true,
 		},
 		{
 			displayName: 'Use Staging Environment',
 			name: 'useStaging',
 			type: 'boolean',
-      description: 'Toggle to use Distru staging environment instead of production',
+			description: 'Toggle to use Distru staging environment instead of production',
 			default: false,
 		},
 	];
@@ -35,7 +36,7 @@ export class DistruApiCredentials implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				Authorization: 'Bearer {{$credentials.apiToken}}',
+				Authorization: 'Bearer {{$credentials.apiKey}}',
 			},
 		},
 	};

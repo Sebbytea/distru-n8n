@@ -1,4 +1,6 @@
 import { DistruOrder } from './nodes/DistruOrder/DistruOrder.node';
+import { DistruCompany } from './nodes/DistruCompany/DistruCompany.node';
+import { DistruProduct } from './nodes/DistruProduct/DistruProduct.node';
 import { DistruApiCredentials } from './credentials/DistruApiCredentialsApi.credentials';
 
 export {
