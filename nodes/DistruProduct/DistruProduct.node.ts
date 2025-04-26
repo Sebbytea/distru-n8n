@@ -37,7 +37,6 @@ export class DistruProduct implements INodeType {
 					{ name: 'Create or Update', value: 'upsert' },
 				],
 				default: 'getAll',
-				description: 'Operation to perform',
 			},
 
 			// -------------------- GET ALL properties --------------------
@@ -46,8 +45,7 @@ export class DistruProduct implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description:
-					'Whether to return all results or limit the number of products returned',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAll'] } },
 			},
 			{
@@ -55,8 +53,8 @@ export class DistruProduct implements INodeType {
 				name: 'limit',
 				type: 'number',
 				default: 50,
-				description: 'Max number of products to return',
-				typeOptions: { minValue: 1, maxValue: 5000 },
+				description: 'Max number of results to return',
+				typeOptions: { minValue: 1 },
 				displayOptions: {
 					show: {
 						operation: ['getAll'],
@@ -331,7 +329,6 @@ export class DistruProduct implements INodeType {
 				name: 'strain_id',
 				type: 'string',
 				default: '',
-				description: 'Strain ID',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{

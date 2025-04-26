@@ -45,8 +45,7 @@ export class DistruCompany implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description:
-					'Whether to return all results or limit the number of companies returned',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAll'] } },
 			},
 			{
@@ -54,8 +53,8 @@ export class DistruCompany implements INodeType {
 				name: 'limit',
 				type: 'number',
 				default: 50,
-				description: 'Max number of companies to return',
-				typeOptions: { minValue: 1, maxValue: 5000 },
+				description: 'Max number of results to return',
+				typeOptions: { minValue: 1 },
 				displayOptions: {
 					show: {
 						operation: ['getAll'],
