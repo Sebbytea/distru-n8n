@@ -5,5 +5,7 @@ import { DistruApiCredentials } from './credentials/DistruApiCredentialsApi.cred
 
 export {
   DistruOrder,
+  DistruCompany,
+  DistruProduct,
   DistruApiCredentials,
 };
