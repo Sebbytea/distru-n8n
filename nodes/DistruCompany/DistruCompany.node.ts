@@ -143,7 +143,6 @@ export class DistruCompany implements INodeType {
 				name: 'order_shipment_email',
 				type: 'string',
 				default: '',
-				description: 'Email where order shipment packing slips are sent',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{
@@ -151,7 +150,6 @@ export class DistruCompany implements INodeType {
 				name: 'legal_business_name',
 				type: 'string',
 				default: '',
-				description: 'Legal business name',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{
@@ -192,7 +190,6 @@ export class DistruCompany implements INodeType {
 				name: 'default_sales_order_notes',
 				type: 'string',
 				default: '',
-				description: 'Default sales order notes',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{
@@ -200,7 +197,6 @@ export class DistruCompany implements INodeType {
 				name: 'default_purchase_order_notes',
 				type: 'string',
 				default: '',
-				description: 'Default purchase order notes',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{
@@ -208,7 +204,7 @@ export class DistruCompany implements INodeType {
 				name: 'relationship_type_id',
 				type: 'string',
 				default: '',
-				description: 'Relationship type ID',
+				description: 'ID of the relationship type',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{
