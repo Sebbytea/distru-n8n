@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-distru",
-  "version": "0.1.8",
-  "description": "This is a native n8n node package for a software called Distru",
+  "version": "0.1.9",
+  "description": "This is a native n8n node package for a cannabis erp software called Distru",
   "keywords": [
     "n8n-community-node-package"
   ],
