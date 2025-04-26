@@ -10,7 +10,7 @@ import {
     description: INodeTypeDescription = {
       displayName: 'Distru Sales Order',
       name: 'distruOrder',
-      icon: 'file:distru-vertical-black.svg', // optional icon file you provide
+      icon: 'file:distru-vertical-green-outlined.svg', // optional icon file you provide
       group: ['output'],
       version: 1,
       description: 'Create and retrieve sales orders from Distru',
@@ -225,6 +225,13 @@ import {
       if (!credentials?.apiToken) {
         throw new NodeOperationError(this.getNode(), 'Distru API token is not set!');
       }
+      // Read useStaging flag from credentials (may be undefined if not set)
+      const useStaging = (credentials.useStaging ?? false) as boolean;
+
+      // Determine base URL dynamically
+      const baseUrl = useStaging 
+        ? 'https://staging.distru.com/public/v1' 
+        : 'https://app.distru.com/public/v1';
   
       for (let i = 0; i < items.length; i++) {
         const operation = this.getNodeParameter('operation', i) as string;
@@ -268,7 +275,7 @@ import {
             // POST request
             const response = await this.helpers.request({
               method: 'POST',
-              uri: 'https://app.distru.com/public/v1/orders',
+              uri: '${baseUrl}/orders',
               headers: {
                 Authorization: `Bearer ${credentials.apiToken}`,
                 'Content-Type': 'application/json',
@@ -281,7 +288,7 @@ import {
             const returnAll = this.getNodeParameter('returnAll', i) as boolean;
             const limit = this.getNodeParameter('limit', i) as number;
   
-            let uri = `https://app.distru.com/public/v1/orders`;
+            let uri = `${baseUrl}/orders`;
   
             // If not returnAll, can add limit param (if Distru supports)
             // Distru API docs don’t explicitly mention limit param, so get all or paginated accordingly.
@@ -310,7 +317,7 @@ import {
   
             const response = await this.helpers.request({
               method: 'GET',
-              uri: `https://app.distru.com/public/v1/orders/${orderId}`,
+              uri: `${baseUrl}/orders/${orderId}`,
               headers: {
                 Authorization: `Bearer ${credentials.apiToken}`,
               },

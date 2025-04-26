@@ -13,5 +13,12 @@ export class DistruApiCredentialsApi implements ICredentialType {
       default: '',
       description: 'Your Distru API Bearer token',
     },
+    {
+      displayName: 'Use Staging Environment',
+      name: 'useStaging',
+      type: 'boolean',
+      default: false,
+      description: 'Toggle to use Distru staging environment instead of production',
+    },
   ];
 }
