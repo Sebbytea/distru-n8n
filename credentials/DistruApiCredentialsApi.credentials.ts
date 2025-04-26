@@ -67,9 +67,12 @@ export class DistruApiCredentialsApi implements ICredentialType {
 		const baseURL = credentials.useStaging ? 'https://staging.distru.com/public/v1' : 'https://app.distru.com/public/v1';
 		const url = '/products?page[number]=1&page[size]=1';
 
-		// Log the raw token (for debugging only)
-		Logger.debug('Raw API Token', {
-			token: credentials.apiToken,
+		// Log credential details
+		Logger.debug('Credential test started', {
+			credentialName: this.name,
+			useStaging: credentials.useStaging,
+			baseURL,
+			hasToken: !!credentials.apiToken,
 			tokenLength: credentials.apiToken.length,
 			tokenPrefix: credentials.apiToken.substring(0, 10) + '...',
 		});
@@ -81,8 +84,8 @@ export class DistruApiCredentialsApi implements ICredentialType {
 			},
 		};
 
-		// Log the full request details
-		Logger.debug('Full request details', {
+		// Log full request details
+		Logger.debug('Sending test request', {
 			method: 'GET',
 			url: baseURL + url,
 			headers: {
@@ -102,8 +105,8 @@ export class DistruApiCredentialsApi implements ICredentialType {
 				headers[key] = value;
 			});
 
-			// Log the full response details
-			Logger.debug('Full response details', {
+			// Log full response details
+			Logger.debug('Received test response', {
 				status: response.status,
 				statusText: response.statusText,
 				headers,
@@ -112,7 +115,7 @@ export class DistruApiCredentialsApi implements ICredentialType {
 
 			if (!response.ok) {
 				const errorText = await response.text();
-				Logger.error('Detailed error response', {
+				Logger.error('Test request failed', {
 					status: response.status,
 					statusText: response.statusText,
 					error: errorText,
