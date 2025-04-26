@@ -212,8 +212,7 @@ export class DistruCompany implements INodeType {
 				name: 'custom_data',
 				type: 'json',
 				default: '',
-				description:
-					'Custom data as a JSON array of objects with id, name, value',
+				description: 'Custom data as a JSON array of objects with ID, name, value',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 		],
