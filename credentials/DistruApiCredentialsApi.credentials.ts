@@ -11,8 +11,8 @@ export class DistruApiCredentialsApi implements ICredentialType {
 	documentationUrl = 'https://apidocs.distru.dev';
 	properties: INodeProperties[] = [
 		{
-			displayName: 'API Key',
-			name: 'apiKey',
+			displayName: 'API Token',
+			name: 'apiToken',
 			type: 'string',
 			typeOptions: {
 				password: true,
@@ -36,7 +36,7 @@ export class DistruApiCredentialsApi implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				Authorization: 'Bearer {{$credentials.apiKey}}',
+				Authorization: 'Bearer {{$credentials.apiToken}}',
 			},
 		},
 	};
@@ -50,7 +50,7 @@ export class DistruApiCredentialsApi implements ICredentialType {
 			// baseURL is conditional on staging toggle
 			baseURL:
 				'={{$credentials.useStaging ? "https://staging.distru.com/public/v1" : "https://app.distru.com/public/v1"}}',
-			url: '/products?page[number]=1&page[size]=1',
+			url: '/products',
 		},
 	};
 }
