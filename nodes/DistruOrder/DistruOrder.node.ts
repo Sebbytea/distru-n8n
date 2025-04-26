@@ -10,7 +10,7 @@ import {
     description: INodeTypeDescription = {
       displayName: 'Distru Sales Order',
       name: 'distruOrder',
-      icon: 'file:distru.png', // optional icon file you provide
+      icon: 'file:distru-vertical-black.svg', // optional icon file you provide
       group: ['output'],
       version: 1,
       description: 'Create and retrieve sales orders from Distru',
@@ -30,13 +30,13 @@ import {
           displayName: 'Operation',
           name: 'operation',
           type: 'options',
+										noDataExpression: true,
           options: [
             { name: 'Create', value: 'create' },
-            { name: 'Get All', value: 'getAll' },
+            { name: 'Get Many', value: 'getAll' },
             { name: 'Get By ID', value: 'getById' },
           ],
           default: 'create',
-          description: 'Operation to perform',
         },
         // Fields for `create` operation
         {
@@ -90,7 +90,7 @@ import {
             { name: 'Check', value: 'CHECK' },
             { name: 'Other', value: 'OTHER' },
           ],
-          default: '',
+          default: 'CASH',
           description: 'Required for Blaze retailers',
           displayOptions: { show: { operation: ['create'] } },
         },
@@ -99,13 +99,13 @@ import {
           name: 'status',
           type: 'options',
           options: [
+            { name: 'Canceled', value: 'CANCELED' },
+            { name: 'Completed', value: 'COMPLETED' },
+            { name: 'Delivered', value: 'DELIVERED' },
+            { name: 'Delivering', value: 'DELIVERING' },
             { name: 'Pending', value: 'PENDING' },
             { name: 'Processing', value: 'PROCESSING' },
             { name: 'Ready To Ship', value: 'READY_TO_SHIP' },
-            { name: 'Delivering', value: 'DELIVERING' },
-            { name: 'Delivered', value: 'DELIVERED' },
-            { name: 'Completed', value: 'COMPLETED' },
-            { name: 'Canceled', value: 'CANCELED' },
           ],
           default: 'PENDING',
           description: 'Order status',
@@ -195,7 +195,7 @@ import {
           name: 'returnAll',
           type: 'boolean',
           default: false,
-          description: 'Whether to return all results or limit the number',
+          description: 'Whether to return all results or only up to a given limit',
           displayOptions: { show: { operation: ['getAll'] } },
         },
         {
@@ -206,7 +206,6 @@ import {
           description: 'Max number of results to return',
           typeOptions: {
             minValue: 1,
-            maxValue: 500,
           },
           displayOptions: {
             show: {

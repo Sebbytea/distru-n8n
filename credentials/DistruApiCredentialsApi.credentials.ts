@@ -1,6 +1,6 @@
 import { ICredentialType, INodeProperties } from 'n8n-workflow';
 
-export class DistruApiCredentials implements ICredentialType {
+export class DistruApiCredentialsApi implements ICredentialType {
   name = 'distruApi';
   displayName = 'Distru API';
   documentationUrl = 'https://apidocs.distru.dev';
@@ -9,6 +9,7 @@ export class DistruApiCredentials implements ICredentialType {
       displayName: 'API Token',
       name: 'apiToken',
       type: 'string',
+						typeOptions: { password: true },
       default: '',
       description: 'Your Distru API Bearer token',
     },
