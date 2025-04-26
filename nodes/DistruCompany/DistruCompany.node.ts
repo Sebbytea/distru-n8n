@@ -166,7 +166,7 @@ export class DistruCompany implements INodeType {
 				name: 'owner_id',
 				type: 'string',
 				default: '',
-				description: 'User ID who owns this company',
+				description: 'ID of the user who owns this company',
 				displayOptions: { show: { operation: ['upsert'] } },
 			},
 			{
