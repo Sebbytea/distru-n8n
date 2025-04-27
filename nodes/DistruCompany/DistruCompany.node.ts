@@ -8,14 +8,14 @@ import {
 
 export class DistruCompany implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Distru Company',
+		displayName: 'Distru GET/POST Company',
 		name: 'distruCompany',
-		icon: 'file:distru-vertical-bright-green.svg',
+		icon: 'file:distru-company.svg',
 		group: ['input', 'output'],
 		version: 1,
 		description: 'Get, create or update companies in Distru',
 		defaults: {
-			name: 'Distru Company',
+			name: 'Distru GET/POST Company',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -33,8 +33,8 @@ export class DistruCompany implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{ name: 'Get Many', value: 'getAll' },
-					{ name: 'Create or Update', value: 'upsert' },
+					{ name: 'Get All Companies', value: 'getAll' },
+					{ name: 'Upsert Company', value: 'upsert' },
 				],
 				default: 'getAll',
 			},

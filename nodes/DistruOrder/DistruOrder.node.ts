@@ -10,7 +10,7 @@ import {
     description: INodeTypeDescription = {
       displayName: 'Distru GET/POST Sales Order',
       name: 'distruOrder',
-      icon: 'file:distru-vertical-bright-green.svg', // optional icon file you provide
+      icon: 'file:distru-order.svg', // optional icon file you provide
       group: ['output'],
       version: 1,
       description: 'Create and retrieve sales orders from Distru',
