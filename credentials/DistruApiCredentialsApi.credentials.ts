@@ -35,6 +35,10 @@ export class DistruApiCredentialsApi implements ICredentialType {
 			baseURL: 'https://app.distru.com/public/v1',
 			url: '/companies',
 			method: 'GET',
+			qs: {
+				page: 1,
+				per_page: 1
+			},
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer {{$credentials.apiToken}}',
