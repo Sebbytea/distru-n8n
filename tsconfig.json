@@ -26,6 +26,6 @@
 		"credentials/**/*",
 		"nodes/**/*",
 		"nodes/**/*.json",
-		"package.json",
+		"package.json", "v1/methods", "nodes/Distru/DistruV1.node.ts",
 	],
 }

@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-distru",
-  "version": "0.1.46",
+  "version": "0.2.0",
   "description": "This is a native n8n node package for a cannabis erp software called Distru",
   "keywords": [
     "n8n-community-node-package"
@@ -39,9 +39,7 @@
       "dist/credentials/DistruApiCredentialsApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/DistruOrder/DistruOrder.node.js",
-      "dist/nodes/DistruCompany/DistruCompany.node.js",
-      "dist/nodes/DistruProduct/DistruProduct.node.js"
+      "dist/nodes/Distru/Distru.node.js"
     ]
   },
   "devDependencies": {
