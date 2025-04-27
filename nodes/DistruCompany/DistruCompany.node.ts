@@ -10,7 +10,7 @@ export class DistruCompany implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Distru GET/POST Company',
 		name: 'distruCompany',
-		icon: 'file:distru-company.svg',
+		icon: 'file:DistruCompany/distru-company.svg',
 		group: ['input', 'output'],
 		version: 1,
 		description: 'Get, create or update companies in Distru',
