@@ -1,8 +1,8 @@
 import type { INodeType, INodeTypeDescription } from 'n8n-workflow';
 import { NodeOperationError } from 'n8n-workflow';
-import * as company from './v1/methods/company'; 
-import * as order from './v1/methods/order';
-import * as product from './v1/methods/product';
+import * as company from './methods/company';
+import * as order from './methods/order';
+import * as product from './methods/product';
 
 export class DistruV1 implements INodeType {
 	description: INodeTypeDescription;

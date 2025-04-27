@@ -1,8 +1,9 @@
-import { DistruV1 } from './nodes/Distru/DistruV1.node';
-import { DistruApi } from './nodes/Distru/v1/credentials/DistruApi.credentials';
-import { NodeOperationError } from 'n8n-workflow';
-
+import { Distru } from './nodes/Distru/Distru.node'; 
+import { DistruApi } from './credentials/DistruApi.credentials';
+import * as company from './methods/company';
+import * as order from './methods/order';
+import * as product from './methods/product';
 export {
-  DistruV1,
+  Distru,
   DistruApi,
 };
