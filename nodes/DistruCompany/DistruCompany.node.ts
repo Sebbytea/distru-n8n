@@ -33,8 +33,8 @@ export class DistruCompany implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{ name: 'Get All Companies', value: 'getAll' },
-					{ name: 'Upsert Company', value: 'upsert' },
+					{ name: 'Get Many', value: 'getAll' },
+					{ name: 'Create or Update', value: 'upsert' },
 				],
 				default: 'getAll',
 			},
