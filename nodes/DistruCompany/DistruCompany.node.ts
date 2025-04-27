@@ -222,7 +222,6 @@ export class DistruCompany implements INodeType {
 
 			try {
 				if (operation === 'getAll') {
-					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
 					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
 					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 

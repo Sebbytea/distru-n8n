@@ -269,7 +269,6 @@ import {
             });
             results.push({ json: response });
           } else if (operation === 'getAll') {
-            const returnAll = this.getNodeParameter('returnAll', i) as boolean;
             let uri = `${baseUrl}/orders`;
             const response = await this.helpers.request({
               method: 'GET',
