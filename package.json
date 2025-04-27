@@ -36,12 +36,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/DistruApiCredentialsApi.credentials.js"
+      "dist/credentials/DistruApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/DistruOrder/DistruOrder.node.js",
-      "dist/nodes/DistruCompany/DistruCompany.node.js",
-      "dist/nodes/DistruProduct/DistruProduct.node.js"
+      "dist/nodes/Distru/Distru.node.js"
     ]
   },
   "devDependencies": {
