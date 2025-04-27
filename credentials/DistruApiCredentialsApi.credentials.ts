@@ -19,13 +19,6 @@ export class DistruApiCredentialsApi implements ICredentialType {
 			},
 			default: '',
 		},
-		{
-			displayName: 'Use Staging Environment',
-			name: 'useStaging',
-			type: 'boolean',
-			description: 'Toggle to use Distru staging environment instead of production',
-			default: false,
-		},
 	];
 
 	authenticate: IAuthenticateGeneric = {
@@ -39,9 +32,11 @@ export class DistruApiCredentialsApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: '={{$credentials.useStaging ? "https://staging.distru.com/public/v1/" : "https://app.distru.com/public/v1/"}}',
-			url: 'companies',
+			baseURL: 'https://app.distru.com/public/v1',
+			url: '/companies',
+			method: 'GET',
 			headers: {
+				'Content-Type': 'application/json',
 				Authorization: '=Bearer {{$credentials.apiToken}}',
 			},
 		},
