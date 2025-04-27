@@ -33,7 +33,7 @@ import {
 										noDataExpression: true,
           options: [
             { name: 'Upsert Order', value: 'create' },
-            { name: 'Get All Orders', value: 'getAll' },
+            { name: 'Get Many', value: 'getAll' },
             { name: 'Get Order By ID', value: 'getById' },
           ],
           default: 'create',
@@ -195,7 +195,7 @@ import {
           name: 'returnAll',
           type: 'boolean',
           default: false,
-          description: 'Whether to return all results',
+          description: 'Whether to return all results or only up to a given limit',
           displayOptions: { show: { operation: ['getAll'] } },
         },
       ],

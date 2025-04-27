@@ -33,8 +33,8 @@ export class DistruCompany implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{ name: 'Get All Companies', value: 'getAll' },
-					{ name: 'Upsert Company', value: 'upsert' },
+					{ name: 'Get Many', value: 'getAll' },
+					{ name: 'Create or Update', value: 'upsert' },
 				],
 				default: 'getAll',
 			},
@@ -45,7 +45,7 @@ export class DistruCompany implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results',
+				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAll'] } },
 			},
 			{
