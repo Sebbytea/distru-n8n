@@ -8,14 +8,14 @@ import {
   
   export class DistruOrder implements INodeType {
     description: INodeTypeDescription = {
-      displayName: 'Distru Sales Order',
+      displayName: 'Distru GET/POST Sales Order',
       name: 'distruOrder',
       icon: 'file:distru-vertical-bright-green.svg', // optional icon file you provide
       group: ['output'],
       version: 1,
       description: 'Create and retrieve sales orders from Distru',
       defaults: {
-        name: 'Distru Sales Order',
+        name: 'Distru GET/POST Sales Order',
       },
       inputs: ['main'],
       outputs: ['main'],
@@ -32,9 +32,9 @@ import {
           type: 'options',
 										noDataExpression: true,
           options: [
-            { name: 'Create', value: 'create' },
-            { name: 'Get Many', value: 'getAll' },
-            { name: 'Get By ID', value: 'getById' },
+            { name: 'Upsert Order', value: 'create' },
+            { name: 'Get All Orders', value: 'getAll' },
+            { name: 'Get Order By ID', value: 'getById' },
           ],
           default: 'create',
         },
