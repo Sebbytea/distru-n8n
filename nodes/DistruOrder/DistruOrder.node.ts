@@ -32,11 +32,11 @@ import {
           type: 'options',
 										noDataExpression: true,
           options: [
+            { name: 'Upsert Order', value: 'create' },
             { name: 'Get Many', value: 'getAll' },
-            { name: 'Create or Update', value: 'upsert' },
             { name: 'Get Order By ID', value: 'getById' },
           ],
-          default: 'getAll',
+          default: 'create',
         },
         // Fields for `create` operation
         {
