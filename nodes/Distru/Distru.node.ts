@@ -30,6 +30,7 @@ export class Distru implements INodeType {
         displayName: 'Resource',
         name: 'resource',
         type: 'options',
+								noDataExpression: true,
         options: [
           { name: 'Company', value: 'company' },
           { name: 'Order', value: 'order' },
@@ -43,10 +44,11 @@ export class Distru implements INodeType {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
+								noDataExpression: true,
         displayOptions: { show: { resource: ['company'] } },
         options: [
           {
-            name: 'Get All',
+            name: 'Get Many',
             value: 'getAll',
             routing: {
               request: {
@@ -56,9 +58,10 @@ export class Distru implements INodeType {
                 // You can add insertedDatetime, updatedDatetime as query params here
               },
             },
+												action: 'Get many companies',
           },
           {
-            name: 'Upsert',
+            name: 'Create or Update',
             value: 'upsert',
             routing: {
               request: {
@@ -87,6 +90,7 @@ export class Distru implements INodeType {
                 },
               },
             },
+												action: 'Upsert a company',
           },
         ],
         default: 'getAll',
@@ -115,10 +119,11 @@ export class Distru implements INodeType {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
+								noDataExpression: true,
         displayOptions: { show: { resource: ['order'] } },
         options: [
           {
-            name: 'Get All',
+            name: 'Get Many',
             value: 'getAll',
             routing: {
               request: {
@@ -126,6 +131,7 @@ export class Distru implements INodeType {
                 url: '/orders',
               },
             },
+												action: 'Get many orders',
           },
           {
             name: 'Create',
@@ -150,6 +156,7 @@ export class Distru implements INodeType {
                 },
               },
             },
+												action: 'Create an order',
           },
           {
             name: 'Get By ID',
@@ -160,6 +167,7 @@ export class Distru implements INodeType {
                 url: '=/orders/{{$parameter["orderId"]}}',
               },
             },
+												action: 'Get by id an order',
           },
         ],
         default: 'getAll',
@@ -182,10 +190,11 @@ export class Distru implements INodeType {
         displayName: 'Operation',
         name: 'operation',
         type: 'options',
+								noDataExpression: true,
         displayOptions: { show: { resource: ['product'] } },
         options: [
           {
-            name: 'Get All',
+            name: 'Get Many',
             value: 'getAll',
             routing: {
               request: {
@@ -193,9 +202,10 @@ export class Distru implements INodeType {
                 url: '/products',
               },
             },
+												action: 'Get many products',
           },
           {
-            name: 'Upsert',
+            name: 'Create or Update',
             value: 'upsert',
             routing: {
               request: {
@@ -237,6 +247,7 @@ export class Distru implements INodeType {
                 },
               },
             },
+												action: 'Upsert a product',
           },
         ],
         default: 'getAll',
