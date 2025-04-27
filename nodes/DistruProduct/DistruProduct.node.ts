@@ -8,14 +8,14 @@ import {
 
 export class DistruProduct implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Distru Product',
+		displayName: 'Distru GET/POST Product',
 		name: 'distruProduct',
 		icon: 'file:distru-product.svg',
 		group: ['input', 'output'],
 		version: 1,
 		description: 'Get, create or update products in Distru',
 		defaults: {
-			name: 'Distru Product',
+			name: 'Distru GET/POST Product',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
@@ -33,8 +33,8 @@ export class DistruProduct implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{ name: 'Get Many', value: 'getAll' },
-					{ name: 'Create or Update', value: 'upsert' },
+					{ name: 'Get All Products', value: 'getAll' },
+					{ name: 'Upsert Product', value: 'upsert' },
 				],
 				default: 'getAll',
 			},
@@ -45,22 +45,8 @@ export class DistruProduct implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results or only up to a given limit',
+				description: 'Whether to return all results',
 				displayOptions: { show: { operation: ['getAll'] } },
-			},
-			{
-				displayName: 'Limit',
-				name: 'limit',
-				type: 'number',
-				default: 50,
-				description: 'Max number of results to return',
-				typeOptions: { minValue: 1 },
-				displayOptions: {
-					show: {
-						operation: ['getAll'],
-						returnAll: [false],
-					},
-				},
 			},
 			{
 				displayName: 'Inserted After',
@@ -373,7 +359,6 @@ export class DistruProduct implements INodeType {
 			try {
 				if (operation === 'getAll') {
 					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const limit = this.getNodeParameter('limit', i) as number;
 					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
 					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 
@@ -406,9 +391,7 @@ export class DistruProduct implements INodeType {
 
 						fetchedCount += data.length;
 
-						if (!returnAll && fetchedCount >= limit) {
-							continueFetching = false;
-						} else if (data.length < pageSize) {
+						if (data.length < pageSize) {
 							continueFetching = false;
 						} else {
 							pageNumber++;

@@ -33,7 +33,7 @@ import {
 										noDataExpression: true,
           options: [
             { name: 'Upsert Order', value: 'create' },
-            { name: 'Get Many', value: 'getAll' },
+            { name: 'Get All Orders', value: 'getAll' },
             { name: 'Get Order By ID', value: 'getById' },
           ],
           default: 'create',
@@ -195,24 +195,8 @@ import {
           name: 'returnAll',
           type: 'boolean',
           default: false,
-          description: 'Whether to return all results or only up to a given limit',
+          description: 'Whether to return all results',
           displayOptions: { show: { operation: ['getAll'] } },
-        },
-        {
-          displayName: 'Limit',
-          name: 'limit',
-          type: 'number',
-          default: 50,
-          description: 'Max number of results to return',
-          typeOptions: {
-            minValue: 1,
-          },
-          displayOptions: {
-            show: {
-              operation: ['getAll'],
-              returnAll: [false],
-            },
-          },
         },
       ],
     };
@@ -286,13 +270,7 @@ import {
             results.push({ json: response });
           } else if (operation === 'getAll') {
             const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-            const limit = this.getNodeParameter('limit', i) as number;
-  
             let uri = `${baseUrl}/orders`;
-  
-            // If not returnAll, can add limit param (if Distru supports)
-            // Distru API docs don't explicitly mention limit param, so get all or paginated accordingly.
-            // Implement simple fetch and limit locally:
             const response = await this.helpers.request({
               method: 'GET',
               uri,
@@ -302,10 +280,6 @@ import {
               json: true,
             });
             let data = response.data;
-  
-            if (!returnAll) {
-              data = data.slice(0, limit);
-            }
             for (const order of data) {
               results.push({ json: order });
             }

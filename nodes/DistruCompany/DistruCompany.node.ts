@@ -33,8 +33,8 @@ export class DistruCompany implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{ name: 'Get Many', value: 'getAll' },
-					{ name: 'Create or Update', value: 'upsert' },
+					{ name: 'Get All Companies', value: 'getAll' },
+					{ name: 'Upsert Company', value: 'upsert' },
 				],
 				default: 'getAll',
 			},
@@ -45,22 +45,8 @@ export class DistruCompany implements INodeType {
 				name: 'returnAll',
 				type: 'boolean',
 				default: false,
-				description: 'Whether to return all results or only up to a given limit',
+				description: 'Whether to return all results',
 				displayOptions: { show: { operation: ['getAll'] } },
-			},
-			{
-				displayName: 'Limit',
-				name: 'limit',
-				type: 'number',
-				default: 50,
-				description: 'Max number of results to return',
-				typeOptions: { minValue: 1 },
-				displayOptions: {
-					show: {
-						operation: ['getAll'],
-						returnAll: [false],
-					},
-				},
 			},
 			{
 				displayName: 'Inserted After',
@@ -237,7 +223,6 @@ export class DistruCompany implements INodeType {
 			try {
 				if (operation === 'getAll') {
 					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const limit = this.getNodeParameter('limit', i) as number;
 					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
 					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 
@@ -270,9 +255,7 @@ export class DistruCompany implements INodeType {
 
 						fetchedCount += data.length;
 
-						if (!returnAll && fetchedCount >= limit) {
-							continueFetching = false;
-						} else if (data.length < pageSize) {
+						if (data.length < pageSize) {
 							continueFetching = false;
 						} else {
 							pageNumber++;
