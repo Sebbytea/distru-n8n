@@ -3,13 +3,7 @@ import {
 	INodeProperties,
 	IAuthenticateGeneric,
 	ICredentialTestRequest,
-	ICredentialDataDecryptedObject,
 } from 'n8n-workflow';
-
-interface DistruCredentials extends ICredentialDataDecryptedObject {
-	apiToken: string;
-	useStaging: boolean;
-}
 
 export class DistruApiCredentialsApi implements ICredentialType {
 	name = 'distruApi';
@@ -45,39 +39,11 @@ export class DistruApiCredentialsApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: '={{$credentials.useStaging ? "https://staging.distru.com/public/v1" : "https://app.distru.com/public/v1"}}',
-			url: '/companies',
+			baseURL: '={{$credentials.useStaging ? "https://staging.distru.com/public/v1/" : "https://app.distru.com/public/v1/"}}',
+			url: 'companies',
 			headers: {
-				'Content-Type': 'application/json',
+				Authorization: '=Bearer {{$credentials.apiToken}}',
 			},
 		},
 	};
-
-	async testRequest(credentials: DistruCredentials): Promise<any> {
-		const baseURL = credentials.useStaging ? 'https://staging.distru.com/public/v1' : 'https://app.distru.com/public/v1';
-		const url = '/companies';
-
-		const request = {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: `Bearer ${credentials.apiToken}`,
-			},
-		};
-
-		try {
-			const response = await fetch(baseURL + url, {
-				method: 'GET',
-				headers: request.headers,
-			});
-
-			if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(`Test request failed: ${response.status} ${response.statusText}\n${errorText}`);
-			}
-
-			return await response.json();
-		} catch (error) {
-			throw error;
-		}
-	}
 }
