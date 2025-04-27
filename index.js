@@ -1,13 +1,8 @@
-import { DistruOrder } from './nodes/DistruOrder/DistruOrder.node';
-import { DistruCompany } from './nodes/DistruCompany/DistruCompany.node';
-import { DistruProduct } from './nodes/DistruProduct/DistruProduct.node';
-import { DistruApiCredentials } from './credentials/DistruApiCredentialsApi.credentials';
-import { Distru } from './nodes/Distru/Distru.node';
+import { DistruV1 } from './nodes/Distru/DistruV1.node';
+import { DistruApi } from './nodes/Distru/v1/credentials/DistruApi.credentials';
+import { NodeOperationError } from 'n8n-workflow';
 
 export {
-  DistruOrder,
-  DistruCompany,
-  DistruProduct,
-  DistruApiCredentials,
-  Distru,
+  DistruV1,
+  DistruApi,
 };
