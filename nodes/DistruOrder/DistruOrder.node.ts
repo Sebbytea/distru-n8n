@@ -32,11 +32,11 @@ import {
           type: 'options',
 										noDataExpression: true,
           options: [
-            { name: 'Upsert Order', value: 'create' },
-            { name: 'Get All Orders', value: 'getAll' },
+            { name: 'Get Many', value: 'getAll' },
+            { name: 'Create or Update', value: 'upsert' },
             { name: 'Get Order By ID', value: 'getById' },
           ],
-          default: 'create',
+          default: 'getAll',
         },
         // Fields for `create` operation
         {
@@ -291,7 +291,7 @@ import {
             let uri = `${baseUrl}/orders`;
   
             // If not returnAll, can add limit param (if Distru supports)
-            // Distru API docs don’t explicitly mention limit param, so get all or paginated accordingly.
+            // Distru API docs don't explicitly mention limit param, so get all or paginated accordingly.
             // Implement simple fetch and limit locally:
             const response = await this.helpers.request({
               method: 'GET',
