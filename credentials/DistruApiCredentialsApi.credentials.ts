@@ -37,7 +37,7 @@ export class DistruApiCredentialsApi implements ICredentialType {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: '=Bearer {{$credentials.apiToken}}',
+				Authorization: 'Bearer {{$credentials.apiToken}}',
 			},
 		},
 	};
