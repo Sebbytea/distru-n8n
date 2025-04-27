@@ -1,4 +1,4 @@
-import { INodeType, INodeTypeDescription } from 'n8n-workflow';
+import { INodeType, INodeTypeDescription, NodeConnectionType } from 'n8n-workflow';
 
 export class Distru implements INodeType {
 	description: INodeTypeDescription = {
@@ -12,8 +12,8 @@ export class Distru implements INodeType {
 		defaults: {
 			name: 'Distru',
 		},
-		inputs: ['main'],
-		outputs: ['main'],
+		inputs: ['main' as NodeConnectionType],
+		outputs: ['main' as NodeConnectionType],
 		credentials: [
 			{
 				name: 'distruApi',
@@ -66,7 +66,7 @@ export class Distru implements INodeType {
 						},
 					},
 					{
-						name: 'Upsert',
+						name: 'Create or Update',
 						value: 'upsert',
 						action: 'Create or update a company',
 						routing: {
@@ -212,7 +212,7 @@ export class Distru implements INodeType {
 						},
 					},
 					{
-						name: 'Upsert',
+						name: 'Create or Update',
 						value: 'upsert',
 						action: 'Create or update a product',
 						routing: {
