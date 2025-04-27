@@ -10,7 +10,6 @@ export class DistruProduct implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Distru GET/POST Product',
 		name: 'distruProduct',
-		icon: 'file:DistruProduct/distru-product.svg',
 		group: ['input', 'output'],
 		version: 1,
 		description: 'Get, create or update products in Distru',

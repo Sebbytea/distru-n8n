@@ -8,7 +8,6 @@ export class DistruApiCredentialsApi implements ICredentialType {
 	name = 'distruApi';
 	displayName = 'Distru API';
 	documentationUrl = 'https://apidocs.distru.dev';
-	icon = 'file:DistruCompany/distru-company.svg' as const;
 	properties: INodeProperties[] = [
 		{
 			displayName: 'API Token',
