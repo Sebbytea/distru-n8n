@@ -2,7 +2,109 @@
 
 # n8n-nodes-distru
 
-This repository contains an n8n community node to integrate with **Distru**, a full-stack inventory, warehouse, and order management platform designed for the cannabis industry. This node enables seamless automation of your Distru workflows directly within n8n.
+This is an n8n community node for integrating with Distru, a cannabis ERP software. It provides a comprehensive set of operations to interact with the Distru API.
+
+## Installation
+
+Follow these steps to install this node in your n8n instance:
+
+```bash
+npm install n8n-nodes-distru
+```
+
+For n8n versions < 0.200, use:
+```bash
+npm install n8n-nodes-distru@^1.0.0
+```
+
+## Credentials
+
+You need to configure your Distru API credentials before using this node:
+
+1. Open your n8n instance
+2. Go to Settings > Credentials
+3. Click on "Add Credential"
+4. Search for "Distru API"
+5. Enter your API Token
+6. (Optional) Enable "Use Staging" if you want to use the staging environment
+
+## Operations
+
+### Get Operations
+- **Get Assembly**: Retrieve assembly information
+- **Get Batch**: Get batch details
+- **Get Company**: Retrieve company information
+- **Get Contact**: Get contact details
+- **Get Inventory**: Retrieve inventory information
+- **Get Invoice**: Get invoice details
+- **Get Location**: Retrieve location information
+- **Get Package**: Get package details
+- **Get Payment Method**: Retrieve payment method information
+- **Get Product**: Get product details
+- **Get Purchase**: Retrieve purchase information
+- **Get Sales Order**: Get sales order details
+- **Get Stock Adjustment**: Retrieve stock adjustment information
+- **Get Strain**: Get strain details
+- **Get User**: Retrieve user information
+
+### Create/Update Operations
+- **Create Batch**: Create a new batch
+- **Create Product**: Create a new product
+- **Update Product**: Update an existing product
+- **Upsert Invoice**: Create or update an invoice
+- **Upsert Purchase**: Create or update a purchase
+- **Upsert Sales Order**: Create or update a sales order
+
+### Payment Operations
+- **Invoice Payment**: Process invoice payments
+- **Purchase Payment**: Process purchase payments
+
+## Additional Fields
+
+Most operations support additional fields for filtering and customization:
+- Page Number
+- Page Size
+- Inserted Datetime
+- Updated Datetime
+- Various IDs for specific resources
+
+## Example Usage
+
+### Get Product Information
+```json
+{
+  "operation": "getProduct",
+  "additionalFields": {
+    "id": "product-id-here",
+    "page_size": 1
+  }
+}
+```
+
+### Create a Purchase Order
+```json
+{
+  "operation": "upsertPurchase",
+  "company_id": "company-id-here",
+  "billing_location_id": "location-id-here",
+  "items": [
+    {
+      "product_id": "product-id-here",
+      "quantity": 10,
+      "price": 100,
+      "location_id": "location-id-here"
+    }
+  ]
+}
+```
+
+## Support
+
+For issues and feature requests, please [create an issue](https://github.com/Sebbytea/distru-n8n/issues) on GitHub.
+
+## License
+
+[MIT](LICENSE.md)
 
 ## 🎯 Features
 
@@ -22,14 +124,6 @@ Before you begin, ensure you have:
 - [pnpm](https://pnpm.io/) package manager (version 9.1 or higher)
 - [n8n](https://n8n.io/) installed globally (`pnpm install -g n8n`)
 - A Distru account with API access
-
-### Installation
-
-1. Install the package in your n8n installation:
-   ```bash
-   pnpm install n8n-nodes-distru
-   ```
-2. Restart your n8n instance to load the new node.
 
 ### Configuration
 
