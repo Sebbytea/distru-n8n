@@ -404,13 +404,6 @@ export class Distru implements INodeType {
 				displayOptions: { show: { operation: ['getOrder'] } },
 				options: [
 					{
-						displayName: 'ID',
-						name: 'id',
-						type: 'string',
-						default: '',
-						description: 'If set, fetch the order with this ID',
-					},
-					{
 						displayName: 'Delivery Datetime',
 						name: 'delivery_datetime',
 						type: 'string',
@@ -423,6 +416,13 @@ export class Distru implements INodeType {
 						type: 'string',
 						default: '',
 						description: 'Filter orders by the due datetime',
+					},
+					{
+						displayName: 'ID',
+						name: 'id',
+						type: 'string',
+						default: '',
+						description: 'If set, fetch the order with this ID',
 					},
 					{
 						displayName: 'Inserted Datetime',
@@ -497,7 +497,7 @@ export class Distru implements INodeType {
 							});
 							results.push({ json: response.data });
 							continue;
-						} catch (error: any) {
+						} catch (error) {
 							if (error.statusCode === 404) {
 								// fallback to query param
 								uri = `${baseUrl}/companies`;
@@ -543,7 +543,7 @@ export class Distru implements INodeType {
 							});
 							results.push({ json: response.data });
 							continue;
-						} catch (error: any) {
+						} catch (error) {
 							if (error.statusCode === 404) {
 								// fallback to query param
 								uri = `${baseUrl}/products`;
@@ -589,7 +589,7 @@ export class Distru implements INodeType {
 							});
 							results.push({ json: response.data });
 							continue;
-						} catch (error: any) {
+						} catch (error) {
 							if (error.statusCode === 404) {
 								// fallback to query param
 								uri = `${baseUrl}/orders`;
