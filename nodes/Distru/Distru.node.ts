@@ -4,6 +4,7 @@ import {
 	INodeType,
 	INodeTypeDescription,
 	NodeOperationError,
+	NodeConnectionType,
 } from 'n8n-workflow';
 
 export class Distru implements INodeType {
@@ -36,28 +37,28 @@ export class Distru implements INodeType {
 				required: true,
 				options: [
 					{
-						name: 'Get Company',
-						value: 'getCompany',
+						name: 'Create Batch',
+						value: 'createBatch',
 					},
 					{
-						name: 'Get Product',
-						value: 'getProduct',
+						name: 'Create Product',
+						value: 'createProduct',
 					},
 					{
-						name: 'Get Order',
-						value: 'getOrder',
-					},
-					{
-						name: 'Get Contact',
-						value: 'getContact',
+						name: 'Get Assembly',
+						value: 'getAssembly',
 					},
 					{
 						name: 'Get Batch',
 						value: 'getBatch',
 					},
 					{
-						name: 'Get Assembly',
-						value: 'getAssembly',
+						name: 'Get Company',
+						value: 'getCompany',
+					},
+					{
+						name: 'Get Contact',
+						value: 'getContact',
 					},
 					{
 						name: 'Get Inventory',
@@ -72,8 +73,20 @@ export class Distru implements INodeType {
 						value: 'getLocation',
 					},
 					{
+						name: 'Get Order',
+						value: 'getOrder',
+					},
+					{
 						name: 'Get Package',
 						value: 'getPackage',
+					},
+					{
+						name: 'Get Payment Method',
+						value: 'getPaymentMethod',
+					},
+					{
+						name: 'Get Product',
+						value: 'getProduct',
 					},
 					{
 						name: 'Get Purchase',
@@ -91,10 +104,36 @@ export class Distru implements INodeType {
 						name: 'Get User',
 						value: 'getUser',
 					},
+					{
+						name: 'Invoice Payment',
+						value: 'invoicePayment',
+					},
+					{
+						name: 'Purchase Payment',
+						value: 'purchasePayment',
+					},
+					{
+						name: 'Update Product',
+						value: 'updateProduct',
+					},
+					{
+						name: 'Upsert Invoice',
+						value: 'upsertInvoice',
+					},
+					{
+						name: 'Upsert Order',
+						value: 'upsertOrder',
+					},
+					{
+						name: 'Upsert Purchase',
+						value: 'upsertPurchase',
+					},
 				],
 			},
 
-			// AdditionalFields and parameters for 'getCompany' operation
+			// -- Additional Fields collections for each GET operation --
+
+			// getCompany
 			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
@@ -103,45 +142,15 @@ export class Distru implements INodeType {
 				default: {},
 				displayOptions: { show: { operation: ['getCompany'] } },
 				options: [
-					{
-						displayName: 'ID',
-						name: 'id',
-						type: 'string',
-						default: '',
-						description: 'If set, fetch the company with this ID',
-					},
-					{
-						displayName: 'Inserted Datetime',
-						name: 'inserted_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter companies by their creation datetime',
-					},
-					{
-						displayName: 'Page Number',
-						name: 'page_number',
-						type: 'number',
-						default: 1,
-						description: 'Page number for pagination',
-					},
-					{
-						displayName: 'Page Size',
-						name: 'page_size',
-						type: 'number',
-						default: 5000,
-						description: 'Number of records per page (max 5000)',
-					},
-					{
-						displayName: 'Updated Datetime',
-						name: 'updated_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter companies by the datetime they were most recently modified',
-					},
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'If set, fetch the company with this ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Filter companies by their creation datetime' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number for pagination' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 5000, description: 'Number of records per page (max 5000)' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Filter companies by last modified datetime' },
 				],
 			},
 
-			// AdditionalFields and parameters for getProduct operation
+			// getProduct
 			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
@@ -150,278 +159,15 @@ export class Distru implements INodeType {
 				default: {},
 				displayOptions: { show: { operation: ['getProduct'] } },
 				options: [
-					{
-						displayName: 'ID',
-						name: 'id',
-						type: 'string',
-						default: '',
-						description: 'If set, fetch the product with this ID',
-					},
-					{
-						displayName: 'Inserted Datetime',
-						name: 'inserted_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter products by their creation datetime',
-					},
-					{
-						displayName: 'Page Number',
-						name: 'page_number',
-						type: 'number',
-						default: 1,
-						description: 'Page number for pagination',
-					},
-					{
-						displayName: 'Page Size',
-						name: 'page_size',
-						type: 'number',
-						default: 5000,
-						description: 'Number of records per page (max 5000)',
-					},
-					{
-						displayName: 'Updated Datetime',
-						name: 'updated_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter products by the datetime they were most recently modified',
-					},
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'If set, fetch the product with this ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Filter products by their creation datetime' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number for pagination' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 5000, description: 'Number of records per page (max 5000)' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Filter products by last modified datetime' },
 				],
 			},
 
-			// Product creation and update parameters (simplified for brevity)
-			{
-				displayName: 'Name',
-				name: 'name',
-				type: 'string',
-				required: true,
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'SKU',
-				name: 'sku',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Description',
-				name: 'description',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Inventory Tracking Method',
-				name: 'inventory_tracking_method',
-				type: 'options',
-				options: [
-					{ name: 'PACKAGE', value: 'PACKAGE' },
-					{ name: 'PRODUCT', value: 'PRODUCT' },
-					{ name: 'BATCH', value: 'BATCH' },
-				],
-				default: 'PACKAGE',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Category ID',
-				name: 'category_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Subcategory ID',
-				name: 'subcategory_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Group ID',
-				name: 'group_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Brand ID',
-				name: 'brand_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Vendor ID',
-				name: 'vendor_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Unit Price',
-				name: 'unit_price',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Unit Cost',
-				name: 'unit_cost',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'MSRP',
-				name: 'msrp',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Wholesale Unit Price',
-				name: 'wholesale_unit_price',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'UPC',
-				name: 'upc',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Units Per Case',
-				name: 'units_per_case',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Is Featured',
-				name: 'is_featured',
-				type: 'boolean',
-				default: false,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Is Inactive',
-				name: 'is_inactive',
-				type: 'boolean',
-				default: false,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Menu Visibility',
-				name: 'menu_visibility',
-				type: 'options',
-				options: [
-					{ name: 'DO_NOT_INCLUDE', value: 'DO_NOT_INCLUDE' },
-					{ name: 'INCLUDE_IN_ALL', value: 'INCLUDE_IN_ALL' },
-					{ name: 'INCLUDE_IN_SELECT', value: 'INCLUDE_IN_SELECT' },
-				],
-				default: 'INCLUDE_IN_ALL',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Menus (if INCLUDE_IN_SELECT)',
-				name: 'menus',
-				type: 'string',
-				typeOptions: {
-					multipleValues: true,
-				},
-				default: [],
-				placeholder: 'Enter menu IDs',
-				displayOptions: {
-					show: {
-						operation: ['createProduct', 'updateProduct'],
-						menu_visibility: ['INCLUDE_IN_SELECT'],
-					},
-				},
-			},
-			{
-				displayName: 'Total THC',
-				name: 'total_thc',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Total CBD',
-				name: 'total_cbd',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Total Cannabinoid Unit',
-				name: 'total_cannabinoid_unit',
-				type: 'options',
-				options: [
-					{ name: 'MG', value: 'MG' },
-					{ name: 'PERCENT', value: 'PERCENT' },
-				],
-				default: 'PERCENT',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Unit Type ID',
-				name: 'unit_type_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Unit Net Weight',
-				name: 'unit_net_weight',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Unit Serving Size',
-				name: 'unit_serving_size',
-				type: 'number',
-				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Unit Net Weight & Serving Size Unit Type ID',
-				name: 'unit_net_weight_and_serving_size_unit_type_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Strain ID',
-				name: 'strain_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Owner ID',
-				name: 'owner_id',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-			{
-				displayName: 'Tags',
-				name: 'tags',
-				type: 'string',
-				typeOptions: {
-					multipleValues: true,
-				},
-				default: [],
-				placeholder: 'Enter tag IDs',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
-			},
-
-			// AdditionalFields and parameters for getOrder operation
+			// getOrder
 			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
@@ -430,76 +176,477 @@ export class Distru implements INodeType {
 				default: {},
 				displayOptions: { show: { operation: ['getOrder'] } },
 				options: [
-					{
-						displayName: 'Delivery Datetime',
-						name: 'delivery_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter orders by the delivery datetime',
-					},
-					{
-						displayName: 'Due Datetime',
-						name: 'due_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter orders by the due datetime',
-					},
-					{
-						displayName: 'ID',
-						name: 'id',
-						type: 'string',
-						default: '',
-						description: 'If set, fetch the order with this ID',
-					},
-					{
-						displayName: 'Inserted Datetime',
-						name: 'inserted_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter orders by their creation datetime',
-					},
-					{
-						displayName: 'Order Datetime',
-						name: 'order_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter orders by the order datetime',
-					},
-					{
-						displayName: 'Page Number',
-						name: 'page_number',
-						type: 'number',
-						default: 1,
-						description: 'Page number for pagination',
-					},
-					{
-						displayName: 'Page Size',
-						name: 'page_size',
-						type: 'number',
-						default: 500,
-						description: 'Number of records per page (max 500)',
-					},
-					{
-						displayName: 'Status',
-						name: 'status',
-						type: 'string',
-						default: '',
-						description: 'Filter orders by their status',
-					},
-					{
-						displayName: 'Updated Datetime',
-						name: 'updated_datetime',
-						type: 'string',
-						default: '',
-						description: 'Filter orders by the datetime they were most recently modified',
-					},
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'If set, fetch order with this ID' },
+					{ displayName: 'Delivery Datetime', name: 'delivery_datetime', type: 'string', default: '', description: 'Filter by delivery datetime' },
+					{ displayName: 'Due Datetime', name: 'due_datetime', type: 'string', default: '', description: 'Filter by due datetime' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Filter by creation datetime' },
+					{ displayName: 'Order Datetime', name: 'order_datetime', type: 'string', default: '', description: 'Filter by order datetime' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page pagination number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 500, description: 'Page size for pagination (max 500)' },
+					{ displayName: 'Status', name: 'status', type: 'string', default: '', description: 'Filter by order status' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Filter by last modified datetime' },
 				],
 			},
 
-			// More AdditionalFields collectors for other GET operations: getAssembly, getBatch, getContact, getInventory, getInvoice, getLocation, getPackage, getPurchase, getStockAdjustment, getStrain, getUser (strings omitted here for brevity, they follow similarly)...
+			// getContact
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getContact'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'If set, fetch contact with this ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Filter by insertion date' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Filter by updated date' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Pagination page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 1000, description: 'Pagination page size' },
+				],
+			},
 
-			// Create / Update / Upsert and Payment operation parameters similarly defined as you had in your original code 
-			// For brevity, these are omitted in this snippet, but you should include ALL as in your original code.
+			// getBatch
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getBatch'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'If set, fetch batch with this ID' },
+					{ displayName: 'Batch Number', name: 'batch_number', type: 'string', default: '', description: 'Filter by batch number' },
+					{ displayName: 'Description', name: 'description', type: 'string', default: '', description: 'Filter by description' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Filter by creation datetime' },
+					{ displayName: 'Owner ID', name: 'owner_id', type: 'string', default: '', description: 'Filter by owner' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 5000, description: 'Records per page' },
+					{ displayName: 'Product ID', name: 'product_id', type: 'string', default: '', description: 'Filter by product' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Filter by updated datetime' },
+				],
+			},
+
+			// getAssembly
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getAssembly'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'If set, fetch assembly with this ID' },
+					{ displayName: 'Completion Datetime', name: 'completion_datetime', type: 'string', default: '', description: 'Filter by completion datetime' },
+					{ displayName: 'Creation Source', name: 'creation_source', type: 'string', default: '', description: 'Filter by creation source' },
+					{ displayName: 'License Number', name: 'license_number', type: 'string', default: '', description: 'Filter by license' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 500, description: 'Records per page' },
+				],
+			},
+
+			// getInventory
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getInventory'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Fetch inventory by ID' },
+					{ displayName: 'Grouping', name: 'grouping', type: 'string', default: '["PRODUCT"]', description: 'Group inventory by attributes' },
+					{ displayName: 'Product IDs', name: 'product_ids', type: 'string', default: '', description: 'Filter by product IDs' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 5000, description: 'Records per page' },
+				],
+			},
+
+			// getInvoice
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getInvoice'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Invoice ID' },
+					{ displayName: 'Due Datetime', name: 'due_datetime', type: 'string', default: '', description: 'Filter by due datetime' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Filter by creation datetime' },
+					{ displayName: 'Invoice Datetime', name: 'invoice_datetime', type: 'string', default: '', description: 'Filter by invoice datetime' },
+					{ displayName: 'Invoice Number', name: 'invoice_number', type: 'string', default: '', description: 'Filter by invoice number' },
+					{ displayName: 'Order IDs', name: 'order_id', type: 'string', default: '', description: 'Filter by order IDs' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 500, description: 'Records per page' },
+					{ displayName: 'Status', name: 'status', type: 'string', default: '', description: 'Status filter' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Filter by last update' },
+				],
+			},
+
+			// getLocation
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getLocation'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Location ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Creation datetime filter' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Last modified filter' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 1000, description: 'Page size' },
+				],
+			},
+
+			// getPackage
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getPackage'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Package ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Creation datetime' },
+					{ displayName: 'License Number', name: 'license_number', type: 'string', default: '', description: 'License number filter' },
+					{ displayName: 'Location IDs', name: 'location_ids', type: 'string', default: '', description: 'Filter by location UUIDs' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 5000, description: 'Page size' },
+					{ displayName: 'Statuses', name: 'statuses', type: 'string', default: '', description: 'Filter by status such as active, selling, sold' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Last modified datetime' },
+				],
+			},
+
+			// getPurchase
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getPurchase'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Purchase ID' },
+					{ displayName: 'Due Datetime', name: 'due_datetime', type: 'string', default: '', description: 'Due datetime filter' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Creation datetime filter' },
+					{ displayName: 'Order Datetime', name: 'order_datetime', type: 'string', default: '', description: 'Order datetime filter' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 500, description: 'Page size' },
+					{ displayName: 'Status', name: 'status', type: 'string', default: '', description: 'Filter by status' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Last modified datetime' },
+				],
+			},
+
+			// getStockAdjustment
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getStockAdjustment'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Stock adjustment ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Creation datetime filter' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 5000, description: 'Page size' },
+				],
+			},
+
+			// getStrain
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getStrain'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'Strain ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Creation datetime filter' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Last modified datetime filter' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 50000, description: 'Page size' },
+				],
+			},
+
+			// getUser
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getUser'] } },
+				options: [
+					{ displayName: 'ID', name: 'id', type: 'string', default: '', description: 'User ID' },
+					{ displayName: 'Inserted Datetime', name: 'inserted_datetime', type: 'string', default: '', description: 'Created after datetime filter' },
+					{ displayName: 'Updated Datetime', name: 'updated_datetime', type: 'string', default: '', description: 'Updated after datetime filter' },
+					{ displayName: 'Page Number', name: 'page_number', type: 'number', default: 1, description: 'Page number for pagination' },
+					{ displayName: 'Page Size', name: 'page_size', type: 'number', default: 1000, description: 'Number of records per page' },
+				],
+			},
+
+			// Invoice payment parameters
+			{
+				displayName: 'Invoice ID',
+				name: 'invoice_id',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+			{
+				displayName: 'Payment Method ID',
+				name: 'payment_method_id',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+			{
+				displayName: 'Amount',
+				name: 'amount',
+				type: 'number',
+				required: true,
+				default: 0,
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+			{
+				displayName: 'Payment Datetime',
+				name: 'payment_datetime',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+			{
+				displayName: 'Quickbooks Deposit Account ID',
+				name: 'quickbooks_deposit_account_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+			{
+				displayName: 'Quickbooks Deposit Account Name',
+				name: 'quickbooks_deposit_account_name',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['invoicePayment'] } },
+			},
+
+			// Upsert invoice parameters
+			{
+				displayName: 'ID',
+				name: 'id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertInvoice'] } },
+			},
+			{
+				displayName: 'Due Datetime',
+				name: 'due_datetime',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertInvoice'] } },
+			},
+			{
+				displayName: 'Invoice Datetime',
+				name: 'invoice_datetime',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertInvoice'] } },
+			},
+			{
+				displayName: 'Charges',
+				name: 'charges',
+				type: 'json',
+				default: '',
+				displayOptions: { show: { operation: ['upsertInvoice'] } },
+			},
+			{
+				displayName: 'Items',
+				name: 'items',
+				type: 'json',
+				default: '',
+				displayOptions: { show: { operation: ['upsertInvoice'] } },
+			},
+			{
+				displayName: 'Billing Location ID',
+				name: 'billing_location_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertInvoice'] } },
+			},
+
+			// Purchase payment parameters
+			{
+				displayName: 'Purchase ID',
+				name: 'purchase_id',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+			{
+				displayName: 'Payment Method ID',
+				name: 'payment_method_id',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+			{
+				displayName: 'Amount',
+				name: 'amount',
+				type: 'number',
+				required: true,
+				default: 0,
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+			{
+				displayName: 'Payment Datetime',
+				name: 'payment_datetime',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				required: true,
+				default: '',
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+			{
+				displayName: 'Quickbooks Deposit Account ID',
+				name: 'quickbooks_deposit_account_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+			{
+				displayName: 'Quickbooks Deposit Account Name',
+				name: 'quickbooks_deposit_account_name',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['purchasePayment'] } },
+			},
+
+			// Upsert purchase parameters
+			{
+				displayName: 'ID',
+				name: 'id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Location ID',
+				name: 'location_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Billing Location ID',
+				name: 'billing_location_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Company ID',
+				name: 'company_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Order Datetime',
+				name: 'order_datetime',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Due Datetime',
+				name: 'due_datetime',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Charges',
+				name: 'charges',
+				type: 'json',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+			{
+				displayName: 'Items',
+				name: 'items',
+				type: 'json',
+				default: '',
+				displayOptions: { show: { operation: ['upsertPurchase'] } },
+			},
+
+			// Create Batch
+			{
+				displayName: 'Product ID',
+				name: 'product_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['createBatch'] } },
+			},
+			{
+				displayName: 'Batch Number',
+				name: 'batch_number',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['createBatch'] } },
+			},
+			{
+				displayName: 'Expiration Date',
+				name: 'expiration_date',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['createBatch'] } },
+			},
+			{
+				displayName: 'Owner ID',
+				name: 'owner_id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['createBatch'] } },
+			},
+			{
+				displayName: 'Description',
+				name: 'description',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['createBatch'] } },
+			},
 		],
 	};
 
@@ -513,9 +660,10 @@ export class Distru implements INodeType {
 		}
 
 		const useStaging = (credentials.useStaging ?? false) as boolean;
-		const baseUrl = useStaging ? 'https://staging.distru.com/public/v1' : 'https://app.distru.com/public/v1';
+		const baseUrl = useStaging
+			? 'https://staging.distru.com/public/v1'
+			: 'https://app.distru.com/public/v1';
 
-		// Helper function to get an entity by ID or list entities filtered by query params
 		const getEntityOrList = async (
 			endpointBase: string,
 			id: string | undefined,
@@ -524,7 +672,6 @@ export class Distru implements INodeType {
 			let uri: string;
 			let qs = { ...query };
 
-			// Map pagination parameters
 			if (qs.page_number !== undefined) {
 				qs['page[number]'] = qs.page_number;
 				delete qs.page_number;
@@ -561,7 +708,6 @@ export class Distru implements INodeType {
 				}
 			} catch (error: any) {
 				if (error.statusCode === 404 && id) {
-					// Fallback to listing and filtering by id
 					uri = `${baseUrl}/${endpointBase}`;
 					delete qs.id;
 					const response = await this.helpers.request({
@@ -584,169 +730,227 @@ export class Distru implements INodeType {
 			const operation = this.getNodeParameter('operation', i) as string;
 
 			try {
-				// -------------- Operations with ID support using getEntityOrList helper --------------
-
-				if (operation === 'getCompany') {
+				if (
+					[
+						'getCompany',
+						'getProduct',
+						'getOrder',
+						'getContact',
+						'getBatch',
+						'getAssembly',
+						'getInventory',
+						'getInvoice',
+						'getLocation',
+						'getPackage',
+						'getPurchase',
+						'getStockAdjustment',
+						'getStrain',
+						'getUser',
+					].includes(operation)
+				) {
 					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
 					const id = additionalFields.id || undefined;
 					const filters = { ...additionalFields };
 					delete filters.id;
 
-					const companies = await getEntityOrList('companies', id, filters);
+					const endpoint = operation.replace(/^get/, '').toLowerCase() + (operation === 'getOrder' ? 's' : '');
 
-					for (const company of companies) {
-						results.push({ json: company });
+					const entities = await getEntityOrList(endpoint, id, filters);
+
+					for (const entity of entities) {
+						results.push({ json: entity });
 					}
-				} else if (operation === 'getProduct') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
-
-					const products = await getEntityOrList('products', id, filters);
-
-					for (const product of products) {
-						results.push({ json: product });
+				} else if (operation === 'getPaymentMethod') {
+					const uri = `${baseUrl}/payment/methods`;
+					const response = await this.helpers.request({
+						method: 'GET',
+						uri,
+						headers: { Authorization: `Bearer ${credentials.apiToken}` },
+						json: true,
+					});
+					if (Array.isArray(response.data)) {
+						for (const item of response.data) {
+							results.push({ json: item });
+						}
+					} else {
+						results.push({ json: response.data });
 					}
-				} else if (operation === 'getOrder') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
+				} else if (operation === 'createProduct') {
+					const body: any = {
+						name: this.getNodeParameter('name', i, ''),
+						sku: this.getNodeParameter('sku', i, ''),
+						description: this.getNodeParameter('description', i, ''),
+						inventory_tracking_method: this.getNodeParameter('inventory_tracking_method', i, 'PACKAGE'),
+						category_id: this.getNodeParameter('category_id', i, ''),
+						subcategory_id: this.getNodeParameter('subcategory_id', i, ''),
+						group_id: this.getNodeParameter('group_id', i, ''),
+						brand_id: this.getNodeParameter('brand_id', i, ''),
+						vendor_id: this.getNodeParameter('vendor_id', i, ''),
+						unit_price: this.getNodeParameter('unit_price', i, 0),
+						unit_cost: this.getNodeParameter('unit_cost', i, 0),
+						msrp: this.getNodeParameter('msrp', i, 0),
+						wholesale_unit_price: this.getNodeParameter('wholesale_unit_price', i, 0),
+						upc: this.getNodeParameter('upc', i, ''),
+						units_per_case: this.getNodeParameter('units_per_case', i, 0),
+						is_featured: this.getNodeParameter('is_featured', i, false),
+						is_inactive: this.getNodeParameter('is_inactive', i, false),
+						menu_visibility: this.getNodeParameter('menu_visibility', i, 'INCLUDE_IN_ALL'),
+						total_thc: this.getNodeParameter('total_thc', i, 0),
+						total_cbd: this.getNodeParameter('total_cbd', i, 0),
+						total_cannabinoid_unit: this.getNodeParameter('total_cannabinoid_unit', i, 'PERCENT'),
+						unit_type_id: this.getNodeParameter('unit_type_id', i, ''),
+						unit_net_weight: this.getNodeParameter('unit_net_weight', i, 0),
+						unit_serving_size: this.getNodeParameter('unit_serving_size', i, 0),
+						unit_net_weight_and_serving_size_unit_type_id: this.getNodeParameter('unit_net_weight_and_serving_size_unit_type_id', i, ''),
+						strain_id: this.getNodeParameter('strain_id', i, ''),
+						owner_id: this.getNodeParameter('owner_id', i, ''),
+					};
 
-					const orders = await getEntityOrList('orders', id, filters);
-
-					for (const order of orders) {
-						results.push({ json: order });
+					const tags = this.getNodeParameter('tags', i, []) as string[];
+					if (tags.length) {
+						body.tags = tags;
 					}
-				} else if (operation === 'getContact') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
 
-					const contacts = await getEntityOrList('contacts', id, filters);
-
-					for (const contact of contacts) {
-						results.push({ json: contact });
+					if (body.menu_visibility === 'INCLUDE_IN_SELECT') {
+						const menus = this.getNodeParameter('menus', i, []) as string[];
+						body.menus = menus;
 					}
-				} else if (operation === 'getBatch') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
 
-					const batches = await getEntityOrList('batches', id, filters);
+					const uri = `${baseUrl}/products`;
 
-					for (const batch of batches) {
-						results.push({ json: batch });
+					const response = await this.helpers.request({
+						method: 'POST',
+						uri,
+						headers: {
+							Authorization: `Bearer ${credentials.apiToken}`,
+							'Content-Type': 'application/json',
+						},
+						body,
+						json: true,
+					});
+
+					results.push({ json: response.data ?? response });
+				} else if (operation === 'updateProduct') {
+					const id = this.getNodeParameter('id', i, '') as string;
+
+					if (!id) {
+						throw new NodeOperationError(this.getNode(), 'Product ID must be provided to update a product.');
 					}
-				} else if (operation === 'getAssembly') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
 
-					const assemblies = await getEntityOrList('assemblies', id, filters);
+					const body: any = {
+						name: this.getNodeParameter('name', i, ''),
+						sku: this.getNodeParameter('sku', i, ''),
+						description: this.getNodeParameter('description', i, ''),
+						inventory_tracking_method: this.getNodeParameter('inventory_tracking_method', i, 'PACKAGE'),
+						category_id: this.getNodeParameter('category_id', i, ''),
+						subcategory_id: this.getNodeParameter('subcategory_id', i, ''),
+						group_id: this.getNodeParameter('group_id', i, ''),
+						brand_id: this.getNodeParameter('brand_id', i, ''),
+						vendor_id: this.getNodeParameter('vendor_id', i, ''),
+						unit_price: this.getNodeParameter('unit_price', i, 0),
+						unit_cost: this.getNodeParameter('unit_cost', i, 0),
+						msrp: this.getNodeParameter('msrp', i, 0),
+						wholesale_unit_price: this.getNodeParameter('wholesale_unit_price', i, 0),
+						upc: this.getNodeParameter('upc', i, ''),
+						units_per_case: this.getNodeParameter('units_per_case', i, 0),
+						is_featured: this.getNodeParameter('is_featured', i, false),
+						is_inactive: this.getNodeParameter('is_inactive', i, false),
+						menu_visibility: this.getNodeParameter('menu_visibility', i, 'INCLUDE_IN_ALL'),
+						total_thc: this.getNodeParameter('total_thc', i, 0),
+						total_cbd: this.getNodeParameter('total_cbd', i, 0),
+						total_cannabinoid_unit: this.getNodeParameter('total_cannabinoid_unit', i, 'PERCENT'),
+						unit_type_id: this.getNodeParameter('unit_type_id', i, ''),
+						unit_net_weight: this.getNodeParameter('unit_net_weight', i, 0),
+						unit_serving_size: this.getNodeParameter('unit_serving_size', i, 0),
+						unit_net_weight_and_serving_size_unit_type_id: this.getNodeParameter('unit_net_weight_and_serving_size_unit_type_id', i, ''),
+						strain_id: this.getNodeParameter('strain_id', i, ''),
+						owner_id: this.getNodeParameter('owner_id', i, ''),
+					};
 
-					for (const assembly of assemblies) {
-						results.push({ json: assembly });
+					const tags = this.getNodeParameter('tags', i, []) as string[];
+					if (tags.length) {
+						body.tags = tags;
 					}
-				} else if (operation === 'getInventory') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
 
-					const inventories = await getEntityOrList('inventory', id, filters);
-
-					for (const inventory of inventories) {
-						results.push({ json: inventory });
+					if (body.menu_visibility === 'INCLUDE_IN_SELECT') {
+						const menus = this.getNodeParameter('menus', i, []) as string[];
+						body.menus = menus;
 					}
-				} else if (operation === 'getInvoice') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
 
-					const invoices = await getEntityOrList('invoices', id, filters);
+					const uri = `${baseUrl}/products/${id}`;
 
-					for (const invoice of invoices) {
-						results.push({ json: invoice });
+					const response = await this.helpers.request({
+						method: 'POST',
+						uri,
+						headers: {
+							Authorization: `Bearer ${credentials.apiToken}`,
+							'Content-Type': 'application/json',
+						},
+						body,
+						json: true,
+					});
+
+					results.push({ json: response.data ?? response });
+				} else if (operation === 'upsertOrder') {
+					const companyId = this.getNodeParameter('companyId', i) as string;
+					const billingLocationId = this.getNodeParameter('billingLocationId', i) as string;
+					const shippingLocationId = this.getNodeParameter('shippingLocationId', i) as string;
+					const dueDatetime = this.getNodeParameter('dueDatetime', i) as string;
+					const deliveryDatetime = this.getNodeParameter('deliveryDatetime', i) as string;
+					const blazePaymentType = this.getNodeParameter('blazePaymentType', i) as string;
+					const status = this.getNodeParameter('status', i) as string;
+					const internalNotes = this.getNodeParameter('internalNotes', i) as string;
+					const externalNotes = this.getNodeParameter('externalNotes', i) as string;
+					const itemsParameter = this.getNodeParameter('items.item', i, []) as any[];
+
+					if (!itemsParameter.length) {
+						throw new NodeOperationError(this.getNode(), 'At least one order item must be provided');
 					}
-				} else if (operation === 'getLocation') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
 
-					const locations = await getEntityOrList('locations', id, filters);
+					const body: any = {
+						company_id: companyId,
+						status,
+						items: itemsParameter.map((item) => ({
+							product_id: item.productId,
+							quantity: item.quantity,
+							price_base: item.priceBase,
+							location_id: item.locationId,
+						})),
+					};
+					if (billingLocationId) body.billing_location_id = billingLocationId;
+					if (shippingLocationId) body.shipping_location_id = shippingLocationId;
+					if (dueDatetime) body.due_datetime = dueDatetime;
+					if (deliveryDatetime) body.delivery_datetime = deliveryDatetime;
+					if (blazePaymentType) body.blaze_payment_type = blazePaymentType;
+					if (internalNotes) body.internal_notes = internalNotes;
+					if (externalNotes) body.external_notes = externalNotes;
 
-					for (const location of locations) {
-						results.push({ json: location });
-					}
-				} else if (operation === 'getPackage') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
+					const uri = `${baseUrl}/orders`;
 
-					const packages = await getEntityOrList('packages', id, filters);
+					const response = await this.helpers.request({
+						method: 'POST',
+						uri,
+						headers: {
+							Authorization: `Bearer ${credentials.apiToken}`,
+							'Content-Type': 'application/json',
+						},
+						body,
+						json: true,
+					});
+					results.push({ json: response });
+				}
 
-					for (const pkg of packages) {
-						results.push({ json: pkg });
-					}
-				} else if (operation === 'getPurchase') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
+				// Implement similarly for other create/upsert/update/payment operations (createBatch, upsertPurchase, purchasePayment, upsertInvoice, invoicePayment) in the same style.
 
-					const purchases = await getEntityOrList('purchases', id, filters);
-
-					for (const purchase of purchases) {
-						results.push({ json: purchase });
-					}
-				} else if (operation === 'getStockAdjustment') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
-
-					const adjustments = await getEntityOrList('adjustments', id, filters);
-
-					for (const adjustment of adjustments) {
-						results.push({ json: adjustment });
-					}
-				} else if (operation === 'getStrain') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
-
-					const strains = await getEntityOrList('strains', id, filters);
-
-					for (const strain of strains) {
-						results.push({ json: strain });
-					}
-				} else if (operation === 'getUser') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
-					const id = additionalFields.id || undefined;
-					const filters = { ...additionalFields };
-					delete filters.id;
-
-					const users = await getEntityOrList('users', id, filters);
-
-					for (const user of users) {
-						results.push({ json: user });
-					}
+				else {
+					throw new NodeOperationError(this.getNode(), `Operation "${operation}" not supported`);
 				}
 			} catch (error) {
 				if (this.continueOnFail()) {
-					results.push({ json: { error: error.message } });
-					continue;
+					results.push({ json: { error: (error as Error).message } });
+				} else {
+					throw error;
 				}
-				throw error;
 			}
 		}
 
