@@ -79,11 +79,18 @@ export class Distru implements INodeType {
 						description: 'Filter companies by the datetime they were most recently modified',
 					},
 					{
-						displayName: 'Page',
-						name: 'page',
-						type: 'string',
-						default: '',
-						description: 'Pagination information',
+						displayName: 'Page Number',
+						name: 'page_number',
+						type: 'number',
+						default: 1,
+						description: 'Page number for pagination',
+					},
+					{
+						displayName: 'Page Size',
+						name: 'page_size',
+						type: 'number',
+						default: 5000,
+						description: 'Number of records per page (max 5000)',
 					},
 				],
 			},
@@ -120,11 +127,18 @@ export class Distru implements INodeType {
 						description: 'Filter products by the datetime they were most recently modified',
 					},
 					{
-						displayName: 'Page',
-						name: 'page',
-						type: 'string',
-						default: '',
-						description: 'Pagination information',
+						displayName: 'Page Number',
+						name: 'page_number',
+						type: 'number',
+						default: 1,
+						description: 'Page number for pagination',
+					},
+					{
+						displayName: 'Page Size',
+						name: 'page_size',
+						type: 'number',
+						default: 5000,
+						description: 'Number of records per page (max 5000)',
 					},
 				],
 			},
@@ -439,11 +453,18 @@ export class Distru implements INodeType {
 						description: 'Filter orders by the order datetime',
 					},
 					{
-						displayName: 'Page',
-						name: 'page',
-						type: 'string',
-						default: '',
-						description: 'Pagination information',
+						displayName: 'Page Number',
+						name: 'page_number',
+						type: 'number',
+						default: 1,
+						description: 'Page number for pagination',
+					},
+					{
+						displayName: 'Page Size',
+						name: 'page_size',
+						type: 'number',
+						default: 500,
+						description: 'Number of records per page (max 500)',
 					},
 					{
 						displayName: 'Status',
@@ -503,7 +524,13 @@ export class Distru implements INodeType {
 								headers: { Authorization: `Bearer ${credentials.apiToken}` },
 								json: true,
 							});
-							results.push({ json: response.data });
+							if (Array.isArray(response.data)) {
+								for (const item of response.data) {
+									results.push({ json: item });
+								}
+							} else {
+								results.push({ json: response.data });
+							}
 							continue;
 						} catch (error) {
 							if (error.statusCode === 404) {
@@ -525,7 +552,13 @@ export class Distru implements INodeType {
 									headers: { Authorization: `Bearer ${credentials.apiToken}` },
 									json: true,
 								});
-								results.push({ json: response.data });
+								if (Array.isArray(response.data)) {
+									for (const item of response.data) {
+										results.push({ json: item });
+									}
+								} else {
+									results.push({ json: response.data });
+								}
 								continue;
 							}
 							throw error;
@@ -540,7 +573,13 @@ export class Distru implements INodeType {
 							headers: { Authorization: `Bearer ${credentials.apiToken}` },
 							json: true,
 						});
-						results.push({ json: response.data });
+						if (Array.isArray(response.data)) {
+							for (const item of response.data) {
+								results.push({ json: item });
+							}
+						} else {
+							results.push({ json: response.data });
+						}
 					}
 				} else if (operation === 'getProduct') {
 					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
@@ -564,7 +603,13 @@ export class Distru implements INodeType {
 								headers: { Authorization: `Bearer ${credentials.apiToken}` },
 								json: true,
 							});
-							results.push({ json: response.data });
+							if (Array.isArray(response.data)) {
+								for (const item of response.data) {
+									results.push({ json: item });
+								}
+							} else {
+								results.push({ json: response.data });
+							}
 							continue;
 						} catch (error) {
 							if (error.statusCode === 404) {
@@ -586,7 +631,13 @@ export class Distru implements INodeType {
 									headers: { Authorization: `Bearer ${credentials.apiToken}` },
 									json: true,
 								});
-								results.push({ json: response.data });
+								if (Array.isArray(response.data)) {
+									for (const item of response.data) {
+										results.push({ json: item });
+									}
+								} else {
+									results.push({ json: response.data });
+								}
 								continue;
 							}
 							throw error;
@@ -601,7 +652,13 @@ export class Distru implements INodeType {
 							headers: { Authorization: `Bearer ${credentials.apiToken}` },
 							json: true,
 						});
-						results.push({ json: response.data });
+						if (Array.isArray(response.data)) {
+							for (const item of response.data) {
+								results.push({ json: item });
+							}
+						} else {
+							results.push({ json: response.data });
+						}
 					}
 				} else if (operation === 'getOrder') {
 					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
@@ -625,7 +682,13 @@ export class Distru implements INodeType {
 								headers: { Authorization: `Bearer ${credentials.apiToken}` },
 								json: true,
 							});
-							results.push({ json: response.data });
+							if (Array.isArray(response.data)) {
+								for (const item of response.data) {
+									results.push({ json: item });
+								}
+							} else {
+								results.push({ json: response.data });
+							}
 							continue;
 						} catch (error) {
 							if (error.statusCode === 404) {
@@ -647,7 +710,13 @@ export class Distru implements INodeType {
 									headers: { Authorization: `Bearer ${credentials.apiToken}` },
 									json: true,
 								});
-								results.push({ json: response.data });
+								if (Array.isArray(response.data)) {
+									for (const item of response.data) {
+										results.push({ json: item });
+									}
+								} else {
+									results.push({ json: response.data });
+								}
 								continue;
 							}
 							throw error;
@@ -662,7 +731,13 @@ export class Distru implements INodeType {
 							headers: { Authorization: `Bearer ${credentials.apiToken}` },
 							json: true,
 						});
-						results.push({ json: response.data });
+						if (Array.isArray(response.data)) {
+							for (const item of response.data) {
+								results.push({ json: item });
+							}
+						} else {
+							results.push({ json: response.data });
+						}
 					}
 				} else if (operation === 'createProduct') {
 					const body: any = {
