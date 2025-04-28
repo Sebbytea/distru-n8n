@@ -725,7 +725,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				displayOptions: { show: { operation: ['upsertOrder'] } },
-				description: 'Unique ID for this order. If it exists, an update will be performed; otherwise, it will be used as the ID of a new order record',
+				description: 'Unique ID for this order. If it exists, an update will be performed; otherwise, it will be used as the ID of a new order record.',
 			},
 			{
 				displayName: 'Company ID',
