@@ -19,7 +19,9 @@ import {
       defaults: {
         name: 'Distru Order',
       },
+      // eslint-disable-next-line n8n-nodes-base/node-class-description-inputs-wrong-regular-node
       inputs: [NodeConnectionType.Main],
+      // eslint-disable-next-line n8n-nodes-base/node-class-description-outputs-wrong
       outputs: [NodeConnectionType.Main],
       credentials: [
         {
