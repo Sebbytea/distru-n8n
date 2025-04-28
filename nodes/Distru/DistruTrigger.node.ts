@@ -32,7 +32,13 @@ export class DistruTrigger implements INodeType {
 				enabled: '={{$parameter["mode"] === "webhook"}}',
 			},
 		],
-		polling: true, // enable polling
+		polling: true,
+		credentials: [
+			{
+				name: 'distruApi',
+				required: true,
+			},
+		],
 		properties: [
 			{
 				displayName: 'Trigger Type',
@@ -62,7 +68,13 @@ export class DistruTrigger implements INodeType {
 				],
 				description: 'Distru resource/event to trigger on',
 			},
-			// Only for polling mode
+			{
+				displayName: 'Enable Polling',
+				name: 'enablePolling',
+				type: 'boolean',
+				default: false,
+				description: 'Whether to enable polling for this trigger',
+			},
 			{
 				displayName: 'Polling Interval',
 				name: 'pollInterval',
@@ -70,7 +82,7 @@ export class DistruTrigger implements INodeType {
 				typeOptions: { minValue: 1 },
 				default: 5,
 				description: 'How often to poll Distru, in minutes',
-				displayOptions: { show: { mode: ['polling'] } },
+				displayOptions: { show: { mode: ['polling'], enablePolling: [true] } },
 			},
 			// Add any other filters for getCompany, getOrder, etc as options
 		],
