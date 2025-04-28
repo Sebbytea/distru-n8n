@@ -38,11 +38,11 @@ export class Distru implements INodeType {
 				noDataExpression: true,
 				options: [
 					{ name: 'Create or Update Company', value: 'upsertCompany' },
-					{ name: 'Create or Update Product', value: 'upsertProduct' },
-					{ name: 'Create Order', value: 'createOrder' },
 					{ name: 'Get Many Companies', value: 'getAllCompanies' },
-					{ name: 'Get Many Orders', value: 'getAllOrders' },
+					{ name: 'Create or Update Product', value: 'upsertProduct' },
 					{ name: 'Get Many Products', value: 'getAllProducts' },
+					{ name: 'Create or Update Order', value: 'upsertOrder' },
+					{ name: 'Get Many Orders', value: 'getAllOrders' },
 					{ name: 'Get Order By ID', value: 'getOrderById' },
 				],
 				default: 'getAllCompanies',
@@ -57,20 +57,6 @@ export class Distru implements INodeType {
 				default: false,
 				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAllCompanies'] } },
-			},
-			{
-				displayName: 'Limit',
-				name: 'limit',
-				type: 'number',
-				default: 50,
-				description: 'Max number of results to return',
-				typeOptions: { minValue: 1 },
-				displayOptions: {
-					show: {
-						operation: ['getAllCompanies'],
-						returnAll: [false],
-					},
-				},
 			},
 			{
 				displayName: 'Inserted After',
@@ -234,20 +220,6 @@ export class Distru implements INodeType {
 				default: false,
 				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAllProducts'] } },
-			},
-			{
-				displayName: 'Limit',
-				name: 'limit',
-				type: 'number',
-				default: 50,
-				description: 'Max number of results to return',
-				typeOptions: { minValue: 1 },
-				displayOptions: {
-					show: {
-						operation: ['getAllProducts'],
-						returnAll: [false],
-					},
-				},
 			},
 			{
 				displayName: 'Inserted After',
@@ -549,20 +521,6 @@ export class Distru implements INodeType {
 				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAllOrders'] } },
 			},
-			{
-				displayName: 'Limit',
-				name: 'limit',
-				type: 'number',
-				default: 50,
-				description: 'Max number of results to return',
-				typeOptions: { minValue: 1 },
-				displayOptions: {
-					show: {
-						operation: ['getAllOrders'],
-						returnAll: [false],
-					},
-				},
-			},
 
 			// Get Order By ID properties
 			{
@@ -583,7 +541,7 @@ export class Distru implements INodeType {
 				default: '',
 				required: true,
 				description: 'Company ID associated with the sales order',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Billing Location ID',
@@ -591,7 +549,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				description: 'ID of the billing location',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Shipping Location ID',
@@ -599,7 +557,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				description: 'ID of the shipping location',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Due Date',
@@ -607,7 +565,7 @@ export class Distru implements INodeType {
 				type: 'dateTime',
 				default: '',
 				description: 'When the order is due',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Delivery Date',
@@ -615,7 +573,7 @@ export class Distru implements INodeType {
 				type: 'dateTime',
 				default: '',
 				description: 'When the order will be delivered',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Blaze Payment Type',
@@ -629,7 +587,7 @@ export class Distru implements INodeType {
 				],
 				default: 'CASH',
 				description: 'Required for Blaze retailers',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Status',
@@ -646,7 +604,7 @@ export class Distru implements INodeType {
 				],
 				default: 'PENDING',
 				description: 'Order status',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Internal Notes',
@@ -654,7 +612,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				description: 'Internal notes for the order',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'External Notes',
@@ -662,7 +620,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				description: 'External notes visible to the customer',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 			},
 			{
 				displayName: 'Order Items',
@@ -674,7 +632,7 @@ export class Distru implements INodeType {
 				default: {},
 				placeholder: 'Add Order Item',
 				description: 'Items in the sales order',
-				displayOptions: { show: { operation: ['createOrder'] } },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
 				options: [
 					{
 						displayName: 'Item',
@@ -736,7 +694,6 @@ export class Distru implements INodeType {
 			try {
 				if (operation === 'getAllCompanies') {
 					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const limit = this.getNodeParameter('limit', i) as number;
 					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
 					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 
@@ -769,7 +726,7 @@ export class Distru implements INodeType {
 
 						fetchedCount += data.length;
 
-						if (!returnAll && fetchedCount >= limit) {
+						if (!returnAll && fetchedCount >= pageSize) {
 							continueFetching = false;
 						} else if (data.length < pageSize) {
 							continueFetching = false;
@@ -842,7 +799,6 @@ export class Distru implements INodeType {
 					results.push({ json: response.data ?? response });
 				} else if (operation === 'getAllProducts') {
 					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const limit = this.getNodeParameter('limit', i) as number;
 					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
 					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 
@@ -875,7 +831,7 @@ export class Distru implements INodeType {
 
 						fetchedCount += data.length;
 
-						if (!returnAll && fetchedCount >= limit) {
+						if (!returnAll && fetchedCount >= pageSize) {
 							continueFetching = false;
 						} else if (data.length < pageSize) {
 							continueFetching = false;
@@ -962,11 +918,9 @@ export class Distru implements INodeType {
 					results.push({ json: response.data ?? response });
 				} else if (operation === 'getAllOrders') {
 					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const limit = this.getNodeParameter('limit', i) as number;
 
 					let uri = `${baseUrl}/orders`;
-
-					// If not returnAll, can add limit param (if Distru supports)
+					const pageSize = 5000;
 					// Distru API docs don't explicitly mention limit param, so get all or paginated accordingly.
 					// Implement simple fetch and limit locally:
 					const response = await this.helpers.request({
@@ -980,7 +934,7 @@ export class Distru implements INodeType {
 					let data = response.data;
 
 					if (!returnAll) {
-						data = data.slice(0, limit);
+						data = data.slice(0, pageSize);
 					}
 					for (const order of data) {
 						results.push({ json: order });
@@ -1000,7 +954,7 @@ export class Distru implements INodeType {
 						json: true,
 					});
 					results.push({ json: response.data });
-				} else if (operation === 'createOrder') {
+				} else if (operation === 'upsertOrder') {
 					// Gather create parameters
 					const companyId = this.getNodeParameter('companyId', i) as string;
 					const billingLocationId = this.getNodeParameter('billingLocationId', i) as string;
