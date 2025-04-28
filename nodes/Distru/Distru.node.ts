@@ -720,6 +720,14 @@ export class Distru implements INodeType {
 
 			// upsertOrder (Upsert Sales Order)
 			{
+				displayName: 'ID',
+				name: 'id',
+				type: 'string',
+				default: '',
+				displayOptions: { show: { operation: ['upsertOrder'] } },
+				description: 'Unique ID for this order. If it exists, an update will be performed; otherwise, it will be used as the ID of a new order record',
+			},
+			{
 				displayName: 'Company ID',
 				name: 'company_id',
 				type: 'string',
@@ -854,13 +862,6 @@ export class Distru implements INodeType {
 								default: '',
 								description: 'Compliance quantity as a string with 4 decimal places'
 							},
-							{ 
-								displayName: 'ID', 
-								name: 'id', 
-								type: 'string', 
-								default: '',
-								description: 'Item ID if updating existing item'
-							}
 						],
 					},
 				],
@@ -1494,6 +1495,7 @@ export class Distru implements INodeType {
 
 					results.push({ json: response.data ?? response });
 				} else if (operation === 'upsertOrder') {
+					const id = this.getNodeParameter('id', i, '') as string;
 					const companyId = this.getNodeParameter('company_id', i, '') as string;
 					const billingLocationId = this.getNodeParameter('billing_location_id', i, '') as string;
 					const shippingLocationId = this.getNodeParameter('shipping_location_id', i, '') as string;
@@ -1503,27 +1505,40 @@ export class Distru implements INodeType {
 					const status = this.getNodeParameter('status', i, '') as string;
 					const internalNotes = this.getNodeParameter('internal_notes', i, '') as string;
 					const externalNotes = this.getNodeParameter('external_notes', i, '') as string;
+					const orderDatetime = this.getNodeParameter('order_datetime', i, '') as string;
+					const ownerId = this.getNodeParameter('owner_id', i, '') as string;
 					const itemsParameter = this.getNodeParameter('items', i, []) as any[];
+					const chargesParameter = this.getNodeParameter('charges', i, []) as any[];
 
 					if (!itemsParameter.length) {
 						throw new NodeOperationError(this.getNode(), 'At least one order item must be provided');
 					}
 
+					const items = itemsParameter.map((entry) => ({
+						product_id: entry.product_id,
+						quantity: entry.quantity,
+						price_base: entry.price_base,
+						location_id: entry.location_id,
+						batch_id: entry.batch_id || undefined,
+						package_id: entry.package_id || undefined,
+						compliance_quantity: entry.compliance_quantity || undefined,
+					}));
+
+					const charges = chargesParameter.map((entry) => ({
+						name: entry.name,
+						type: entry.type,
+						unit_type: entry.unit_type,
+						percent: entry.percent || undefined,
+						price: entry.price || undefined,
+					}));
+
 					const body: any = {
 						company_id: companyId,
 						status,
-						items: itemsParameter.map((item) => {
-							const itemBody: any = {
-								product_id: item.product_id,
-								quantity: item.quantity,
-								price_base: item.price_base,
-								location_id: item.location_id,
-							};
-							if (item.batch_id) itemBody.batch_id = item.batch_id;
-							if (item.package_id) itemBody.package_id = item.package_id;
-							return itemBody;
-						}),
+						items,
+						charges,
 					};
+					if (id) body.id = id;
 					if (billingLocationId) body.billing_location_id = billingLocationId;
 					if (shippingLocationId) body.shipping_location_id = shippingLocationId;
 					if (dueDatetime) body.due_datetime = dueDatetime;
@@ -1531,6 +1546,8 @@ export class Distru implements INodeType {
 					if (blazePaymentType) body.blaze_payment_type = blazePaymentType;
 					if (internalNotes) body.internal_notes = internalNotes;
 					if (externalNotes) body.external_notes = externalNotes;
+					if (orderDatetime) body.order_datetime = orderDatetime;
+					if (ownerId) body.owner_id = ownerId;
 
 					const uri = `${baseUrl}/orders`;
 					const response = await this.helpers.request({
