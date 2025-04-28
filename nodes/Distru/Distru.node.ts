@@ -57,6 +57,37 @@ export class Distru implements INodeType {
 				description: 'If set, only fetch the company with this ID',
 				displayOptions: { show: { operation: ['getCompany'] } },
 			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getCompany'] } },
+				options: [
+					{
+						displayName: 'Inserted Datetime',
+						name: 'inserted_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter companies by their creation datetime',
+					},
+					{
+						displayName: 'Updated Datetime',
+						name: 'updated_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter companies by the datetime they were most recently modified',
+					},
+					{
+						displayName: 'Page',
+						name: 'page',
+						type: 'string',
+						default: '',
+						description: 'Pagination information',
+					},
+				],
+			},
 
 			// -------------------- PRODUCT OPERATIONS --------------------
 			// Get All Products properties
@@ -67,6 +98,37 @@ export class Distru implements INodeType {
 				default: '',
 				description: 'If set, only fetch the product with this ID',
 				displayOptions: { show: { operation: ['getProduct'] } },
+			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getProduct'] } },
+				options: [
+					{
+						displayName: 'Inserted Datetime',
+						name: 'inserted_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter products by their creation datetime',
+					},
+					{
+						displayName: 'Updated Datetime',
+						name: 'updated_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter products by the datetime they were most recently modified',
+					},
+					{
+						displayName: 'Page',
+						name: 'page',
+						type: 'string',
+						default: '',
+						description: 'Pagination information',
+					},
+				],
 			},
 
 			// Upsert Product properties
@@ -343,6 +405,65 @@ export class Distru implements INodeType {
 				description: 'If set, only fetch the order with this ID',
 				displayOptions: { show: { operation: ['getOrder'] } },
 			},
+			{
+				displayName: 'Additional Fields',
+				name: 'additionalFields',
+				type: 'collection',
+				placeholder: 'Add Field',
+				default: {},
+				displayOptions: { show: { operation: ['getOrder'] } },
+				options: [
+					{
+						displayName: 'Delivery Datetime',
+						name: 'delivery_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter orders by the delivery datetime',
+					},
+					{
+						displayName: 'Due Datetime',
+						name: 'due_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter orders by the due datetime',
+					},
+					{
+						displayName: 'Inserted Datetime',
+						name: 'inserted_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter orders by their creation datetime',
+					},
+					{
+						displayName: 'Order Datetime',
+						name: 'order_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter orders by the order datetime',
+					},
+					{
+						displayName: 'Page',
+						name: 'page',
+						type: 'string',
+						default: '',
+						description: 'Pagination information',
+					},
+					{
+						displayName: 'Status',
+						name: 'status',
+						type: 'string',
+						default: '',
+						description: 'Filter orders by their status',
+					},
+					{
+						displayName: 'Updated Datetime',
+						name: 'updated_datetime',
+						type: 'string',
+						default: '',
+						description: 'Filter orders by the datetime they were most recently modified',
+					},
+				],
+			},
 		],
 	};
 
@@ -365,49 +486,76 @@ export class Distru implements INodeType {
 			try {
 				if (operation === 'getCompany') {
 					const id = this.getNodeParameter('id', i, '') as string;
+					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
 					let uri: string;
+					let qs: Record<string, string> = {};
 					if (id) {
 						uri = `${baseUrl}/companies/${id}`;
 					} else {
 						uri = `${baseUrl}/companies`;
+						qs = { ...additionalFields };
 					}
 					const response = await this.helpers.request({
 						method: 'GET',
 						uri,
+						qs,
 						headers: { Authorization: `Bearer ${credentials.apiToken}` },
 						json: true,
 					});
-					results.push({ json: response.data });
+					if (id) {
+						results.push({ json: response.data });
+					} else {
+						const first = Array.isArray(response.data) ? response.data[0] : response.data;
+						results.push({ json: first });
+					}
 				} else if (operation === 'getProduct') {
 					const id = this.getNodeParameter('id', i, '') as string;
+					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
 					let uri: string;
+					let qs: Record<string, string> = {};
 					if (id) {
 						uri = `${baseUrl}/products/${id}`;
 					} else {
 						uri = `${baseUrl}/products`;
+						qs = { ...additionalFields };
 					}
 					const response = await this.helpers.request({
 						method: 'GET',
 						uri,
+						qs,
 						headers: { Authorization: `Bearer ${credentials.apiToken}` },
 						json: true,
 					});
-					results.push({ json: response.data });
+					if (id) {
+						results.push({ json: response.data });
+					} else {
+						const first = Array.isArray(response.data) ? response.data[0] : response.data;
+						results.push({ json: first });
+					}
 				} else if (operation === 'getOrder') {
 					const id = this.getNodeParameter('id', i, '') as string;
+					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
 					let uri: string;
+					let qs: Record<string, string> = {};
 					if (id) {
 						uri = `${baseUrl}/orders/${id}`;
 					} else {
 						uri = `${baseUrl}/orders`;
+						qs = { ...additionalFields };
 					}
 					const response = await this.helpers.request({
 						method: 'GET',
 						uri,
+						qs,
 						headers: { Authorization: `Bearer ${credentials.apiToken}` },
 						json: true,
 					});
-					results.push({ json: response.data });
+					if (id) {
+						results.push({ json: response.data });
+					} else {
+						const first = Array.isArray(response.data) ? response.data[0] : response.data;
+						results.push({ json: first });
+					}
 				} else if (operation === 'createProduct') {
 					const body: any = {
 						name: this.getNodeParameter('name', i, ''),
