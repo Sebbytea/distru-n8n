@@ -19,18 +19,8 @@ export class Distru implements INodeType {
 		defaults: {
 			name: 'Distru',
 		},
-		inputs: [{
-			displayName: 'Main',
-			maxConnections: 1,
-			required: true,
-			type: NodeConnectionType.Main,
-		}],
-		outputs: [
-			{
-				displayName: 'Main',
-				type: NodeConnectionType.Main,
-			},
-		],
+		inputs: ['main'],
+		outputs: ['main'],
 		credentials: [
 			{
 				name: 'distruApi',
