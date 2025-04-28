@@ -805,12 +805,132 @@ export class Distru implements INodeType {
 						displayName: 'Order Item',
 						name: 'item',
 						values: [
-							{ displayName: 'Product ID', name: 'product_id', type: 'string', default: '' },
-							{ displayName: 'Quantity', name: 'quantity', type: 'number', default: 1 },
-							{ displayName: 'Base Price', name: 'price_base', type: 'number', default: 0 },
-							{ displayName: 'Location ID', name: 'location_id', type: 'string', default: '' },
-							{ displayName: 'Batch ID', name: 'batch_id', type: 'string', default: '' },
-							{ displayName: 'Package ID', name: 'package_id', type: 'string', default: '' },
+							{ 
+								displayName: 'Product ID', 
+								name: 'product_id', 
+								type: 'string', 
+								default: '',
+								description: 'Required for product-tracked items'
+							},
+							{ 
+								displayName: 'Quantity', 
+								name: 'quantity', 
+								type: 'string', 
+								default: '1.000000000',
+								description: 'Quantity as a string with 9 decimal places'
+							},
+							{ 
+								displayName: 'Base Price', 
+								name: 'price_base', 
+								type: 'string', 
+								default: '0.000000000',
+								description: 'Base price as a string with 9 decimal places'
+							},
+							{ 
+								displayName: 'Location ID', 
+								name: 'location_id', 
+								type: 'string', 
+								default: '',
+								description: 'Required location ID'
+							},
+							{ 
+								displayName: 'Batch ID', 
+								name: 'batch_id', 
+								type: 'string', 
+								default: '',
+								description: 'Required for batch-tracked items'
+							},
+							{ 
+								displayName: 'Package ID', 
+								name: 'package_id', 
+								type: 'string', 
+								default: '',
+								description: 'Required for package-tracked items'
+							},
+							{ 
+								displayName: 'Compliance Quantity', 
+								name: 'compliance_quantity', 
+								type: 'string', 
+								default: '',
+								description: 'Compliance quantity as a string with 4 decimal places'
+							},
+							{ 
+								displayName: 'ID', 
+								name: 'id', 
+								type: 'string', 
+								default: '',
+								description: 'Item ID if updating existing item'
+							}
+						],
+					},
+				],
+			},
+			{
+				displayName: 'Charges',
+				name: 'charges',
+				type: 'fixedCollection',
+				placeholder: 'Add Charge',
+				typeOptions: { multipleValues: true },
+				displayOptions: { show: { operation: ['upsertOrder'] } },
+				default: [],
+				options: [
+					{
+						displayName: 'Charge',
+						name: 'charge',
+						values: [
+							{ 
+								displayName: 'Name', 
+								name: 'name', 
+								type: 'string', 
+								default: '',
+								description: 'Name of the charge/discount'
+							},
+							{ 
+								displayName: 'Type', 
+								name: 'type', 
+								type: 'options', 
+								options: [
+									{ name: 'CHARGE', value: 'CHARGE' },
+									{ name: 'DISCOUNT', value: 'DISCOUNT' },
+									{ name: 'TAX', value: 'TAX' }
+								], 
+								default: 'CHARGE',
+								description: 'Type of charge'
+							},
+							{ 
+								displayName: 'Unit Type', 
+								name: 'unit_type', 
+								type: 'options', 
+								options: [
+									{ name: 'PERCENT', value: 'PERCENT' },
+									{ name: 'PRICE', value: 'PRICE' }
+								], 
+								default: 'PERCENT',
+								description: 'Unit type for the charge'
+							},
+							{ 
+								displayName: 'Percent', 
+								name: 'percent', 
+								type: 'string', 
+								default: '',
+								description: 'Percentage as a string with 4 decimal places (e.g. "10.0000")',
+								displayOptions: { show: { unit_type: ['PERCENT'] } }
+							},
+							{ 
+								displayName: 'Price', 
+								name: 'price', 
+								type: 'string', 
+								default: '',
+								description: 'Price as a string with 2 decimal places (e.g. "-5.00")',
+								displayOptions: { show: { unit_type: ['PRICE'] } }
+							},
+							{ 
+								displayName: 'ID', 
+								name: 'id', 
+								type: 'string', 
+								default: '',
+								description: 'Charge ID if updating existing charge'
+							}
 						],
 					},
 				],
@@ -1511,5 +1631,77 @@ export class Distru implements INodeType {
 		}
 
 		return [results];
+	}
+
+	async upsertOrder(this: IExecuteFunctions, index: number): Promise<INodeExecutionData> {
+		const companyId = this.getNodeParameter('company_id', index) as string;
+		const billingLocationId = this.getNodeParameter('billing_location_id', index) as string;
+		const shippingLocationId = this.getNodeParameter('shipping_location_id', index) as string;
+		const dueDatetime = this.getNodeParameter('due_datetime', index) as string;
+		const deliveryDatetime = this.getNodeParameter('delivery_datetime', index) as string;
+		const blazePaymentType = this.getNodeParameter('blaze_payment_type', index) as string;
+		const status = this.getNodeParameter('status', index) as string;
+		const internalNotes = this.getNodeParameter('internal_notes', index) as string;
+		const externalNotes = this.getNodeParameter('external_notes', index) as string;
+		const items = this.getNodeParameter('items', index) as Array<{
+			item: {
+				product_id?: string;
+				quantity: string;
+				price_base: string;
+				location_id: string;
+				batch_id?: string;
+				package_id?: string;
+				compliance_quantity?: string;
+				id?: string;
+			};
+		}>;
+		const charges = this.getNodeParameter('charges', index) as Array<{
+			charge: {
+				name: string;
+				type: 'CHARGE' | 'DISCOUNT' | 'TAX';
+				unit_type: 'PERCENT' | 'PRICE';
+				percent?: string;
+				price?: string;
+				id?: string;
+			};
+		}>;
+
+		const body: any = {
+			company_id: companyId,
+			billing_location_id: billingLocationId,
+			shipping_location_id: shippingLocationId,
+			due_datetime: dueDatetime,
+			delivery_datetime: deliveryDatetime,
+			blaze_payment_type: blazePaymentType,
+			status,
+			internal_notes: internalNotes,
+			external_notes: externalNotes,
+			items: items.map(item => ({
+				product_id: item.item.product_id,
+				quantity: item.item.quantity,
+				price_base: item.item.price_base,
+				location_id: item.item.location_id,
+				batch_id: item.item.batch_id,
+				package_id: item.item.package_id,
+				compliance_quantity: item.item.compliance_quantity,
+				id: item.item.id
+			})),
+			charges: charges.map(charge => ({
+				name: charge.charge.name,
+				type: charge.charge.type,
+				unit_type: charge.charge.unit_type,
+				percent: charge.charge.percent,
+				price: charge.charge.price,
+				id: charge.charge.id
+			}))
+		};
+
+		const response = await this.helpers.requestWithAuthentication.call(this, 'distruApi', {
+			method: 'POST',
+			url: '/public/v1/orders',
+			body
+		});
+
+		return { json: response };
 	}
 }
