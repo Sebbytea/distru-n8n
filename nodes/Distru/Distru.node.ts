@@ -482,9 +482,17 @@ export class Distru implements INodeType {
 
 			try {
 				if (operation === 'getCompany') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
+					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
 					let uri: string;
-					let qs: Record<string, string> = { ...additionalFields };
+					let qs: Record<string, any> = { ...additionalFields };
+					if (qs.page_number !== undefined) {
+						qs['page[number]'] = qs.page_number;
+						delete qs.page_number;
+					}
+					if (qs.page_size !== undefined) {
+						qs['page[size]'] = qs.page_size;
+						delete qs.page_size;
+					}
 					let response;
 					if (additionalFields.id) {
 						uri = `${baseUrl}/companies/${additionalFields.id}`;
@@ -499,9 +507,16 @@ export class Distru implements INodeType {
 							continue;
 						} catch (error) {
 							if (error.statusCode === 404) {
-								// fallback to query param
 								uri = `${baseUrl}/companies`;
 								qs = { ...additionalFields };
+								if (qs.page_number !== undefined) {
+									qs['page[number]'] = qs.page_number;
+									delete qs.page_number;
+								}
+								if (qs.page_size !== undefined) {
+									qs['page[size]'] = qs.page_size;
+									delete qs.page_size;
+								}
 								delete qs.id;
 								response = await this.helpers.request({
 									method: 'GET',
@@ -528,9 +543,17 @@ export class Distru implements INodeType {
 						results.push({ json: response.data });
 					}
 				} else if (operation === 'getProduct') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
+					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
 					let uri: string;
-					let qs: Record<string, string> = { ...additionalFields };
+					let qs: Record<string, any> = { ...additionalFields };
+					if (qs.page_number !== undefined) {
+						qs['page[number]'] = qs.page_number;
+						delete qs.page_number;
+					}
+					if (qs.page_size !== undefined) {
+						qs['page[size]'] = qs.page_size;
+						delete qs.page_size;
+					}
 					let response;
 					if (additionalFields.id) {
 						uri = `${baseUrl}/products/${additionalFields.id}`;
@@ -545,9 +568,16 @@ export class Distru implements INodeType {
 							continue;
 						} catch (error) {
 							if (error.statusCode === 404) {
-								// fallback to query param
 								uri = `${baseUrl}/products`;
 								qs = { ...additionalFields };
+								if (qs.page_number !== undefined) {
+									qs['page[number]'] = qs.page_number;
+									delete qs.page_number;
+								}
+								if (qs.page_size !== undefined) {
+									qs['page[size]'] = qs.page_size;
+									delete qs.page_size;
+								}
 								delete qs.id;
 								response = await this.helpers.request({
 									method: 'GET',
@@ -574,9 +604,17 @@ export class Distru implements INodeType {
 						results.push({ json: response.data });
 					}
 				} else if (operation === 'getOrder') {
-					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
+					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, any>;
 					let uri: string;
-					let qs: Record<string, string> = { ...additionalFields };
+					let qs: Record<string, any> = { ...additionalFields };
+					if (qs.page_number !== undefined) {
+						qs['page[number]'] = qs.page_number;
+						delete qs.page_number;
+					}
+					if (qs.page_size !== undefined) {
+						qs['page[size]'] = qs.page_size;
+						delete qs.page_size;
+					}
 					let response;
 					if (additionalFields.id) {
 						uri = `${baseUrl}/orders/${additionalFields.id}`;
@@ -591,9 +629,16 @@ export class Distru implements INodeType {
 							continue;
 						} catch (error) {
 							if (error.statusCode === 404) {
-								// fallback to query param
 								uri = `${baseUrl}/orders`;
 								qs = { ...additionalFields };
+								if (qs.page_number !== undefined) {
+									qs['page[number]'] = qs.page_number;
+									delete qs.page_number;
+								}
+								if (qs.page_size !== undefined) {
+									qs['page[size]'] = qs.page_size;
+									delete qs.page_size;
+								}
 								delete qs.id;
 								response = await this.helpers.request({
 									method: 'GET',
