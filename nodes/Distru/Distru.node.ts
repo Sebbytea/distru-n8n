@@ -39,10 +39,10 @@ export class Distru implements INodeType {
 				options: [
 					{ name: 'Company: Get', value: 'getCompany' },
 					{ name: 'Product: Create', value: 'createProduct' },
-					{ name: 'Product: Update', value: 'updateProduct' },
 					{ name: 'Product: Get', value: 'getProduct' },
-					{ name: 'Sales Order: Upsert', value: 'upsertOrder' },
+					{ name: 'Product: Update', value: 'updateProduct' },
 					{ name: 'Sales Order: Get', value: 'getOrder' },
+					{ name: 'Sales Order: Upsert', value: 'upsertOrder' },
 				],
 				default: 'getCompany',
 			},
@@ -365,40 +365,49 @@ export class Distru implements INodeType {
 			try {
 				if (operation === 'getCompany') {
 					const id = this.getNodeParameter('id', i, '') as string;
+					let uri: string;
 					if (id) {
-						const uri = `${baseUrl}/companies/${id}`;
-						const response = await this.helpers.request({
-							method: 'GET',
-							uri,
-							headers: { Authorization: `Bearer ${credentials.apiToken}` },
-							json: true,
-						});
-						results.push({ json: response.data });
+						uri = `${baseUrl}/companies/${id}`;
+					} else {
+						uri = `${baseUrl}/companies`;
 					}
+					const response = await this.helpers.request({
+						method: 'GET',
+						uri,
+						headers: { Authorization: `Bearer ${credentials.apiToken}` },
+						json: true,
+					});
+					results.push({ json: response.data });
 				} else if (operation === 'getProduct') {
 					const id = this.getNodeParameter('id', i, '') as string;
+					let uri: string;
 					if (id) {
-						const uri = `${baseUrl}/products/${id}`;
-						const response = await this.helpers.request({
-							method: 'GET',
-							uri,
-							headers: { Authorization: `Bearer ${credentials.apiToken}` },
-							json: true,
-						});
-						results.push({ json: response.data });
+						uri = `${baseUrl}/products/${id}`;
+					} else {
+						uri = `${baseUrl}/products`;
 					}
+					const response = await this.helpers.request({
+						method: 'GET',
+						uri,
+						headers: { Authorization: `Bearer ${credentials.apiToken}` },
+						json: true,
+					});
+					results.push({ json: response.data });
 				} else if (operation === 'getOrder') {
 					const id = this.getNodeParameter('id', i, '') as string;
+					let uri: string;
 					if (id) {
-						const uri = `${baseUrl}/orders/${id}`;
-						const response = await this.helpers.request({
-							method: 'GET',
-							uri,
-							headers: { Authorization: `Bearer ${credentials.apiToken}` },
-							json: true,
-						});
-						results.push({ json: response.data });
+						uri = `${baseUrl}/orders/${id}`;
+					} else {
+						uri = `${baseUrl}/orders`;
 					}
+					const response = await this.helpers.request({
+						method: 'GET',
+						uri,
+						headers: { Authorization: `Bearer ${credentials.apiToken}` },
+						json: true,
+					});
+					results.push({ json: response.data });
 				} else if (operation === 'createProduct') {
 					const body: any = {
 						name: this.getNodeParameter('name', i, ''),
