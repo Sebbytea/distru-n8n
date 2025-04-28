@@ -37,13 +37,11 @@ export class Distru implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{ name: 'Create or Update Company', value: 'upsertCompany' },
-					{ name: 'Get Many Companies', value: 'getAllCompanies' },
-					{ name: 'Create or Update Product', value: 'upsertProduct' },
-					{ name: 'Get Many Products', value: 'getAllProducts' },
-					{ name: 'Create or Update Order', value: 'upsertOrder' },
-					{ name: 'Get Many Orders', value: 'getAllOrders' },
-					{ name: 'Get Order By ID', value: 'getOrderById' },
+					{ name: 'Company: Get', value: 'getAllCompanies' },
+					{ name: 'Product: Create or Update', value: 'upsertProduct' },
+					{ name: 'Product: Get', value: 'getAllProducts' },
+					{ name: 'Sales Order: Create or Update', value: 'upsertOrder' },
+					{ name: 'Sales Order: Get', value: 'getAllOrders' },
 				],
 				default: 'getAllCompanies',
 			},
@@ -74,141 +72,13 @@ export class Distru implements INodeType {
 				description: 'Filter companies updated after this datetime',
 				displayOptions: { show: { operation: ['getAllCompanies'] } },
 			},
-
-			// Upsert Company properties
 			{
-				displayName: 'Company ID',
+				displayName: 'ID',
 				name: 'id',
 				type: 'string',
 				default: '',
-				description:
-					'If set, updates the company with this ID. Otherwise, creates a new company.',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Name',
-				name: 'name',
-				type: 'string',
-				required: true,
-				default: '',
-				description: 'Legal business name',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Category',
-				name: 'category',
-				type: 'string',
-				default: '',
-				description: 'Category of company e.g. Retailer',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Default Email',
-				name: 'default_email',
-				type: 'string',
-				default: '',
-				description: 'Default email for the company',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Invoice Email',
-				name: 'invoice_email',
-				type: 'string',
-				default: '',
-				description: 'Email where invoices are delivered',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Purchase Order Email',
-				name: 'purchase_order_email',
-				type: 'string',
-				default: '',
-				description: 'Email where purchase order slips are delivered',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Sales Order Email',
-				name: 'sales_order_email',
-				type: 'string',
-				default: '',
-				description: 'Email where sales order slips are delivered',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Order Shipment Email',
-				name: 'order_shipment_email',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Legal Business Name',
-				name: 'legal_business_name',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Outstanding Balance Threshold',
-				name: 'outstanding_balance_threshold',
-				type: 'number',
-				default: 0,
-				description: 'Threshold warning when exceeded',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Owner ID',
-				name: 'owner_id',
-				type: 'string',
-				default: '',
-				description: 'ID of the user who owns this company',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Phone Number',
-				name: 'phone_number',
-				type: 'string',
-				default: '',
-				description: 'Phone number for the company',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Website',
-				name: 'website',
-				type: 'string',
-				default: '',
-				description: 'Website URL',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Default Sales Order Notes',
-				name: 'default_sales_order_notes',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Default Purchase Order Notes',
-				name: 'default_purchase_order_notes',
-				type: 'string',
-				default: '',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Relationship Type ID',
-				name: 'relationship_type_id',
-				type: 'string',
-				default: '',
-				description: 'ID of the relationship type',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
-			},
-			{
-				displayName: 'Custom Data',
-				name: 'custom_data',
-				type: 'json',
-				default: '',
-				description: 'Custom data as a JSON array of objects with ID, name, value',
-				displayOptions: { show: { operation: ['upsertCompany'] } },
+				description: 'If set, only fetch the record with this ID',
+				displayOptions: { show: { operation: ['getAllCompanies'] } },
 			},
 
 			// -------------------- PRODUCT OPERATIONS --------------------
@@ -237,17 +107,16 @@ export class Distru implements INodeType {
 				description: 'Filter products updated after this datetime',
 				displayOptions: { show: { operation: ['getAllProducts'] } },
 			},
-
-			// Upsert Product properties
 			{
-				displayName: 'Product ID',
+				displayName: 'ID',
 				name: 'id',
 				type: 'string',
 				default: '',
-				description:
-					'If set, updates the product with this ID. Otherwise, creates a new product.',
-				displayOptions: { show: { operation: ['upsertProduct'] } },
+				description: 'If set, only fetch the record with this ID',
+				displayOptions: { show: { operation: ['getAllProducts'] } },
 			},
+
+			// Upsert Product properties
 			{
 				displayName: 'Name',
 				name: 'name',
@@ -521,156 +390,13 @@ export class Distru implements INodeType {
 				description: 'Whether to return all results or only up to a given limit',
 				displayOptions: { show: { operation: ['getAllOrders'] } },
 			},
-
-			// Get Order By ID properties
 			{
-				displayName: 'Order ID',
-				name: 'orderId',
+				displayName: 'ID',
+				name: 'id',
 				type: 'string',
 				default: '',
-				required: true,
-				description: 'ID of the order to retrieve',
-				displayOptions: { show: { operation: ['getOrderById'] } },
-			},
-
-			// Create Order properties
-			{
-				displayName: 'Company ID',
-				name: 'companyId',
-				type: 'string',
-				default: '',
-				required: true,
-				description: 'Company ID associated with the sales order',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Billing Location ID',
-				name: 'billingLocationId',
-				type: 'string',
-				default: '',
-				description: 'ID of the billing location',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Shipping Location ID',
-				name: 'shippingLocationId',
-				type: 'string',
-				default: '',
-				description: 'ID of the shipping location',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Due Date',
-				name: 'dueDatetime',
-				type: 'dateTime',
-				default: '',
-				description: 'When the order is due',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Delivery Date',
-				name: 'deliveryDatetime',
-				type: 'dateTime',
-				default: '',
-				description: 'When the order will be delivered',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Blaze Payment Type',
-				name: 'blazePaymentType',
-				type: 'options',
-				options: [
-					{ name: 'Cash', value: 'CASH' },
-					{ name: 'Credit Card', value: 'CREDIT_CARD' },
-					{ name: 'Check', value: 'CHECK' },
-					{ name: 'Other', value: 'OTHER' },
-				],
-				default: 'CASH',
-				description: 'Required for Blaze retailers',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Status',
-				name: 'status',
-				type: 'options',
-				options: [
-					{ name: 'Canceled', value: 'CANCELED' },
-					{ name: 'Completed', value: 'COMPLETED' },
-					{ name: 'Delivered', value: 'DELIVERED' },
-					{ name: 'Delivering', value: 'DELIVERING' },
-					{ name: 'Pending', value: 'PENDING' },
-					{ name: 'Processing', value: 'PROCESSING' },
-					{ name: 'Ready To Ship', value: 'READY_TO_SHIP' },
-				],
-				default: 'PENDING',
-				description: 'Order status',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Internal Notes',
-				name: 'internalNotes',
-				type: 'string',
-				default: '',
-				description: 'Internal notes for the order',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'External Notes',
-				name: 'externalNotes',
-				type: 'string',
-				default: '',
-				description: 'External notes visible to the customer',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-			},
-			{
-				displayName: 'Order Items',
-				name: 'items',
-				type: 'fixedCollection',
-				typeOptions: {
-					multipleValues: true,
-				},
-				default: {},
-				placeholder: 'Add Order Item',
-				description: 'Items in the sales order',
-				displayOptions: { show: { operation: ['upsertOrder'] } },
-				options: [
-					{
-						displayName: 'Item',
-						name: 'item',
-						values: [
-							{
-								displayName: 'Product ID',
-								name: 'productId',
-								type: 'string',
-								default: '',
-								required: true,
-								description: 'ID of the product',
-							},
-							{
-								displayName: 'Quantity',
-								name: 'quantity',
-								type: 'number',
-								default: 1,
-								required: true,
-								description: 'Quantity of product',
-							},
-							{
-								displayName: 'Price Base',
-								name: 'priceBase',
-								type: 'number',
-								default: 0,
-								description: 'Base price for the item',
-							},
-							{
-								displayName: 'Location ID',
-								name: 'locationId',
-								type: 'string',
-								default: '',
-								description: 'Location ID for this item',
-							},
-						],
-					},
-				],
+				description: 'If set, only fetch the record with this ID',
+				displayOptions: { show: { operation: ['getAllOrders'] } },
 			},
 		],
 	};
@@ -693,150 +419,111 @@ export class Distru implements INodeType {
 
 			try {
 				if (operation === 'getAllCompanies') {
-					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
-					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
-
-					let queryParams = new URLSearchParams();
-					if (insertedDatetime) queryParams.set('inserted_datetime', insertedDatetime);
-					if (updatedDatetime) queryParams.set('updated_datetime', updatedDatetime);
-
-					let pageNumber = 1;
-					const pageSize = 5000;
-					let fetchedCount = 0;
-					let continueFetching = true;
-
-					while (continueFetching) {
-						queryParams.set('page[number]', pageNumber.toString());
-						const uri = `${baseUrl}/companies?${queryParams.toString()}`;
-
-						const response = await this.helpers.request({
-							method: 'GET',
-							uri,
-							headers: {
-								Authorization: `Bearer ${credentials.apiToken}`,
-							},
-							json: true,
-						});
-
-						const data = response.data ?? [];
-						for (const company of data) {
-							results.push({ json: company });
-						}
-
-						fetchedCount += data.length;
-
-						if (!returnAll && fetchedCount >= pageSize) {
-							continueFetching = false;
-						} else if (data.length < pageSize) {
-							continueFetching = false;
-						} else {
-							pageNumber++;
-						}
-					}
-				} else if (operation === 'upsertCompany') {
 					const id = this.getNodeParameter('id', i, '') as string;
-
-					const body: any = {};
-
-					const fields = [
-						'name',
-						'category',
-						'default_email',
-						'invoice_email',
-						'purchase_order_email',
-						'sales_order_email',
-						'order_shipment_email',
-						'legal_business_name',
-						'outstanding_balance_threshold',
-						'owner_id',
-						'phone_number',
-						'website',
-						'default_sales_order_notes',
-						'default_purchase_order_notes',
-						'relationship_type_id',
-					];
-
-					for (const field of fields) {
-						const val = this.getNodeParameter(field as any, i, undefined);
-						if (val !== undefined && val !== '') {
-							body[field] = val;
-						}
-					}
-
-					// Custom data as JSON string -> parse to send as array
-					const customDataStr = this.getNodeParameter('custom_data', i, '') as string;
-					if (customDataStr) {
-						try {
-							body.custom_data = JSON.parse(customDataStr);
-						} catch {
-							throw new NodeOperationError(
-								this.getNode(),
-								'Custom Data must be a valid JSON array',
-							);
-						}
-					}
-
-					const uri = id
-						? `${baseUrl}/companies`
-						: `${baseUrl}/companies`;
-
 					if (id) {
-						body.id = id;
-					}
-
-					const response = await this.helpers.request({
-						method: 'POST',
-						uri,
-						headers: {
-							Authorization: `Bearer ${credentials.apiToken}`,
-							'Content-Type': 'application/json',
-						},
-						body,
-						json: true,
-					});
-
-					results.push({ json: response.data ?? response });
-				} else if (operation === 'getAllProducts') {
-					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
-					const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
-					const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
-
-					let queryParams = new URLSearchParams();
-					if (insertedDatetime) queryParams.set('inserted_datetime', insertedDatetime);
-					if (updatedDatetime) queryParams.set('updated_datetime', updatedDatetime);
-
-					let pageNumber = 1;
-					const pageSize = 5000;
-					let fetchedCount = 0;
-					let continueFetching = true;
-
-					while (continueFetching) {
-						queryParams.set('page[number]', pageNumber.toString());
-						const uri = `${baseUrl}/products?${queryParams.toString()}`;
-
+						const uri = `${baseUrl}/companies/${id}`;
 						const response = await this.helpers.request({
 							method: 'GET',
 							uri,
-							headers: {
-								Authorization: `Bearer ${credentials.apiToken}`,
-							},
+							headers: { Authorization: `Bearer ${credentials.apiToken}` },
 							json: true,
 						});
+						results.push({ json: response.data });
+					} else {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+						const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
+						const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 
-						const data = response.data ?? [];
-						for (const product of data) {
-							results.push({ json: product });
+						let queryParams = new URLSearchParams();
+						if (insertedDatetime) queryParams.set('inserted_datetime', insertedDatetime);
+						if (updatedDatetime) queryParams.set('updated_datetime', updatedDatetime);
+
+						let pageNumber = 1;
+						const pageSize = 5000;
+						let fetchedCount = 0;
+						let continueFetching = true;
+
+						while (continueFetching) {
+							queryParams.set('page[number]', pageNumber.toString());
+							const uri = `${baseUrl}/companies?${queryParams.toString()}`;
+
+							const response = await this.helpers.request({
+								method: 'GET',
+								uri,
+								headers: {
+									Authorization: `Bearer ${credentials.apiToken}`,
+								},
+								json: true,
+							});
+
+							const data = response.data ?? [];
+							for (const company of data) {
+								results.push({ json: company });
+							}
+
+							fetchedCount += data.length;
+
+							if (!returnAll && fetchedCount >= pageSize) {
+								continueFetching = false;
+							} else if (data.length < pageSize) {
+								continueFetching = false;
+							} else {
+								pageNumber++;
+							}
 						}
+					}
+				} else if (operation === 'getAllProducts') {
+					const id = this.getNodeParameter('id', i, '') as string;
+					if (id) {
+						const uri = `${baseUrl}/products/${id}`;
+						const response = await this.helpers.request({
+							method: 'GET',
+							uri,
+							headers: { Authorization: `Bearer ${credentials.apiToken}` },
+							json: true,
+						});
+						results.push({ json: response.data });
+					} else {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+						const insertedDatetime = this.getNodeParameter('insertedDatetime', i, '') as string;
+						const updatedDatetime = this.getNodeParameter('updatedDatetime', i, '') as string;
 
-						fetchedCount += data.length;
+						let queryParams = new URLSearchParams();
+						if (insertedDatetime) queryParams.set('inserted_datetime', insertedDatetime);
+						if (updatedDatetime) queryParams.set('updated_datetime', updatedDatetime);
 
-						if (!returnAll && fetchedCount >= pageSize) {
-							continueFetching = false;
-						} else if (data.length < pageSize) {
-							continueFetching = false;
-						} else {
-							pageNumber++;
+						let pageNumber = 1;
+						const pageSize = 5000;
+						let fetchedCount = 0;
+						let continueFetching = true;
+
+						while (continueFetching) {
+							queryParams.set('page[number]', pageNumber.toString());
+							const uri = `${baseUrl}/products?${queryParams.toString()}`;
+
+							const response = await this.helpers.request({
+								method: 'GET',
+								uri,
+								headers: {
+									Authorization: `Bearer ${credentials.apiToken}`,
+								},
+								json: true,
+							});
+
+							const data = response.data ?? [];
+							for (const product of data) {
+								results.push({ json: product });
+							}
+
+							fetchedCount += data.length;
+
+							if (!returnAll && fetchedCount >= pageSize) {
+								continueFetching = false;
+							} else if (data.length < pageSize) {
+								continueFetching = false;
+							} else {
+								pageNumber++;
+							}
 						}
 					}
 				} else if (operation === 'upsertProduct') {
@@ -917,43 +604,40 @@ export class Distru implements INodeType {
 
 					results.push({ json: response.data ?? response });
 				} else if (operation === 'getAllOrders') {
-					const returnAll = this.getNodeParameter('returnAll', i) as boolean;
+					const id = this.getNodeParameter('id', i, '') as string;
+					if (id) {
+						const uri = `${baseUrl}/orders/${id}`;
+						const response = await this.helpers.request({
+							method: 'GET',
+							uri,
+							headers: { Authorization: `Bearer ${credentials.apiToken}` },
+							json: true,
+						});
+						results.push({ json: response.data });
+					} else {
+						const returnAll = this.getNodeParameter('returnAll', i) as boolean;
 
-					let uri = `${baseUrl}/orders`;
-					const pageSize = 5000;
-					// Distru API docs don't explicitly mention limit param, so get all or paginated accordingly.
-					// Implement simple fetch and limit locally:
-					const response = await this.helpers.request({
-						method: 'GET',
-						uri,
-						headers: {
-							Authorization: `Bearer ${credentials.apiToken}`,
-						},
-						json: true,
-					});
-					let data = response.data;
+						let uri = `${baseUrl}/orders`;
+						const pageSize = 5000;
+						// Distru API docs don't explicitly mention limit param, so get all or paginated accordingly.
+						// Implement simple fetch and limit locally:
+						const response = await this.helpers.request({
+							method: 'GET',
+							uri,
+							headers: {
+								Authorization: `Bearer ${credentials.apiToken}`,
+							},
+							json: true,
+						});
+						let data = response.data;
 
-					if (!returnAll) {
-						data = data.slice(0, pageSize);
+						if (!returnAll) {
+							data = data.slice(0, pageSize);
+						}
+						for (const order of data) {
+							results.push({ json: order });
+						}
 					}
-					for (const order of data) {
-						results.push({ json: order });
-					}
-				} else if (operation === 'getOrderById') {
-					const orderId = this.getNodeParameter('orderId', i) as string;
-					if (!orderId) {
-						throw new NodeOperationError(this.getNode(), 'Order ID is required');
-					}
-
-					const response = await this.helpers.request({
-						method: 'GET',
-						uri: `${baseUrl}/orders/${orderId}`,
-						headers: {
-							Authorization: `Bearer ${credentials.apiToken}`,
-						},
-						json: true,
-					});
-					results.push({ json: response.data });
 				} else if (operation === 'upsertOrder') {
 					// Gather create parameters
 					const companyId = this.getNodeParameter('companyId', i) as string;
