@@ -4,21 +4,23 @@ import {
     INodeType,
     INodeTypeDescription,
     NodeOperationError,
+    NodeConnectionType,
   } from 'n8n-workflow';
   
   export class DistruOrder implements INodeType {
     description: INodeTypeDescription = {
-      displayName: 'Distru GET/POST Sales Order',
+      displayName: 'Distru Order',
       name: 'distruOrder',
-      icon: 'file:distru-vertical-bright-green.svg', // optional icon file you provide
-      group: ['output'],
+      icon: 'file:distru-order.svg',
+      group: ['transform'],
       version: 1,
-      description: 'Create and retrieve sales orders from Distru',
+      subtitle: '={{$parameter["operation"]}}',
+      description: 'Interact with the Distru Order API',
       defaults: {
-        name: 'Distru GET/POST Sales Order',
+        name: 'Distru Order',
       },
-      inputs: ['main'],
-      outputs: ['main'],
+      inputs: [NodeConnectionType.Main],
+      outputs: [NodeConnectionType.Main],
       credentials: [
         {
           name: 'distruApi',
