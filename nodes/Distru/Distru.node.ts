@@ -1278,7 +1278,7 @@ export class Distru implements INodeType {
 					}
 				} else if (operation === 'getPaymentMethod') {
 					// No ID for payment methods endpoint
-					const uri = `${baseUrl}/payment/methods`;
+					const uri = `${baseUrl}/payment-methods`;
 					const response = await this.helpers.request({
 						method: 'GET',
 						uri,
