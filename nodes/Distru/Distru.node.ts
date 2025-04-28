@@ -8,14 +8,14 @@ import {
 } from 'n8n-workflow';
 
 export class Distru implements INodeType {
-	description: INodeTypeDescription = {
-		displayName: 'Distru',
-		name: 'distru',
-		icon: 'file:distru.svg',
-		group: ['transform'],
-		version: 1,
+  description: INodeTypeDescription = {
+    displayName: 'Distru',
+    name: 'distru',
+    icon: 'file:distru.svg',
+    group: ['transform'],
+    version: 1,
 		subtitle: '={{$parameter["operation"]}}',
-		description: 'Interact with the Distru API',
+    description: 'Interact with the Distru API',
 		defaults: {
 			name: 'Distru',
 		},
@@ -23,19 +23,19 @@ export class Distru implements INodeType {
 		inputs: [NodeConnectionType.Main],
 		// eslint-disable-next-line n8n-nodes-base/node-class-description-outputs-wrong
 		outputs: [NodeConnectionType.Main],
-		credentials: [
-			{
-				name: 'distruApi',
-				required: true,
-			},
-		],
-		properties: [
+    credentials: [
+      {
+        name: 'distruApi',
+        required: true,
+      },
+    ],
+    properties: [
 			// Operation selector
-			{
-				displayName: 'Operation',
-				name: 'operation',
-				type: 'options',
-				noDataExpression: true,
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+								noDataExpression: true,
 				options: [
 					{ name: 'Company: Get', value: 'getCompany' },
 					{ name: 'Product: Create', value: 'createProduct' },
@@ -56,8 +56,8 @@ export class Distru implements INodeType {
 				placeholder: 'Add Field',
 				default: {},
 				displayOptions: { show: { operation: ['getCompany'] } },
-				options: [
-					{
+        options: [
+          {
 						displayName: 'ID',
 						name: 'id',
 						type: 'string',
@@ -171,8 +171,8 @@ export class Distru implements INodeType {
 			{
 				displayName: 'Inventory Tracking Method',
 				name: 'inventory_tracking_method',
-				type: 'options',
-				options: [
+        type: 'options',
+        options: [
 					{ name: 'PACKAGE', value: 'PACKAGE' },
 					{ name: 'PRODUCT', value: 'PRODUCT' },
 					{ name: 'BATCH', value: 'BATCH' },
@@ -315,9 +315,9 @@ export class Distru implements INodeType {
 					show: {
 						operation: ['createProduct', 'updateProduct'],
 						menu_visibility: ['INCLUDE_IN_SELECT'],
-					},
-				},
-			},
+                  },
+                },
+              },
 			{
 				displayName: 'Total THC',
 				name: 'total_thc',
@@ -416,8 +416,8 @@ export class Distru implements INodeType {
 				placeholder: 'Add Field',
 				default: {},
 				displayOptions: { show: { operation: ['getOrder'] } },
-				options: [
-					{
+        options: [
+          {
 						displayName: 'Delivery Datetime',
 						name: 'delivery_datetime',
 						type: 'string',
@@ -912,4 +912,4 @@ export class Distru implements INodeType {
 
 		return this.prepareOutputData(results);
 	}
-}
+} 
