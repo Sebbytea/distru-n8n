@@ -525,8 +525,9 @@ export class Distru implements INodeType {
 								json: true,
 							});
 							if (Array.isArray(response.data)) {
-								for (const item of response.data) {
-									results.push({ json: item });
+								const found = response.data.find((item: any) => String(item.id) === String(additionalFields.id));
+								if (found) {
+									results.push({ json: found });
 								}
 							} else {
 								results.push({ json: response.data });
@@ -553,8 +554,9 @@ export class Distru implements INodeType {
 									json: true,
 								});
 								if (Array.isArray(response.data)) {
-									for (const item of response.data) {
-										results.push({ json: item });
+									const found = response.data.find((item: any) => String(item.id) === String(additionalFields.id));
+									if (found) {
+										results.push({ json: found });
 									}
 								} else {
 									results.push({ json: response.data });
@@ -604,8 +606,9 @@ export class Distru implements INodeType {
 								json: true,
 							});
 							if (Array.isArray(response.data)) {
-								for (const item of response.data) {
-									results.push({ json: item });
+								const found = response.data.find((item: any) => String(item.id) === String(additionalFields.id));
+								if (found) {
+									results.push({ json: found });
 								}
 							} else {
 								results.push({ json: response.data });
@@ -632,8 +635,9 @@ export class Distru implements INodeType {
 									json: true,
 								});
 								if (Array.isArray(response.data)) {
-									for (const item of response.data) {
-										results.push({ json: item });
+									const found = response.data.find((item: any) => String(item.id) === String(additionalFields.id));
+									if (found) {
+										results.push({ json: found });
 									}
 								} else {
 									results.push({ json: response.data });
