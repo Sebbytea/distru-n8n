@@ -50,14 +50,6 @@ export class Distru implements INodeType {
 			// -------------------- COMPANY OPERATIONS --------------------
 			// Get All Companies properties
 			{
-				displayName: 'ID',
-				name: 'id',
-				type: 'string',
-				default: '',
-				description: 'If set, only fetch the company with this ID',
-				displayOptions: { show: { operation: ['getCompany'] } },
-			},
-			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
 				type: 'collection',
@@ -65,6 +57,13 @@ export class Distru implements INodeType {
 				default: {},
 				displayOptions: { show: { operation: ['getCompany'] } },
 				options: [
+					{
+						displayName: 'ID',
+						name: 'id',
+						type: 'string',
+						default: '',
+						description: 'If set, fetch the company with this ID',
+					},
 					{
 						displayName: 'Inserted Datetime',
 						name: 'inserted_datetime',
@@ -92,14 +91,6 @@ export class Distru implements INodeType {
 			// -------------------- PRODUCT OPERATIONS --------------------
 			// Get All Products properties
 			{
-				displayName: 'ID',
-				name: 'id',
-				type: 'string',
-				default: '',
-				description: 'If set, only fetch the product with this ID',
-				displayOptions: { show: { operation: ['getProduct'] } },
-			},
-			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
 				type: 'collection',
@@ -107,6 +98,13 @@ export class Distru implements INodeType {
 				default: {},
 				displayOptions: { show: { operation: ['getProduct'] } },
 				options: [
+					{
+						displayName: 'ID',
+						name: 'id',
+						type: 'string',
+						default: '',
+						description: 'If set, fetch the product with this ID',
+					},
 					{
 						displayName: 'Inserted Datetime',
 						name: 'inserted_datetime',
@@ -398,14 +396,6 @@ export class Distru implements INodeType {
 			// -------------------- ORDER OPERATIONS --------------------
 			// Get All Orders properties
 			{
-				displayName: 'ID',
-				name: 'id',
-				type: 'string',
-				default: '',
-				description: 'If set, only fetch the order with this ID',
-				displayOptions: { show: { operation: ['getOrder'] } },
-			},
-			{
 				displayName: 'Additional Fields',
 				name: 'additionalFields',
 				type: 'collection',
@@ -413,6 +403,13 @@ export class Distru implements INodeType {
 				default: {},
 				displayOptions: { show: { operation: ['getOrder'] } },
 				options: [
+					{
+						displayName: 'ID',
+						name: 'id',
+						type: 'string',
+						default: '',
+						description: 'If set, fetch the order with this ID',
+					},
 					{
 						displayName: 'Delivery Datetime',
 						name: 'delivery_datetime',
@@ -485,76 +482,142 @@ export class Distru implements INodeType {
 
 			try {
 				if (operation === 'getCompany') {
-					const id = this.getNodeParameter('id', i, '') as string;
 					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
 					let uri: string;
-					let qs: Record<string, string> = {};
-					if (id) {
-						uri = `${baseUrl}/companies/${id}`;
+					let qs: Record<string, string> = { ...additionalFields };
+					let response;
+					if (additionalFields.id) {
+						uri = `${baseUrl}/companies/${additionalFields.id}`;
+						try {
+							response = await this.helpers.request({
+								method: 'GET',
+								uri,
+								headers: { Authorization: `Bearer ${credentials.apiToken}` },
+								json: true,
+							});
+							results.push({ json: response.data });
+							continue;
+						} catch (error: any) {
+							if (error.statusCode === 404) {
+								// fallback to query param
+								uri = `${baseUrl}/companies`;
+								qs = { ...additionalFields };
+								delete qs.id;
+								response = await this.helpers.request({
+									method: 'GET',
+									uri,
+									qs,
+									headers: { Authorization: `Bearer ${credentials.apiToken}` },
+									json: true,
+								});
+								results.push({ json: response.data });
+								continue;
+							}
+							throw error;
+						}
 					} else {
 						uri = `${baseUrl}/companies`;
-						qs = { ...additionalFields };
-					}
-					const response = await this.helpers.request({
-						method: 'GET',
-						uri,
-						qs,
-						headers: { Authorization: `Bearer ${credentials.apiToken}` },
-						json: true,
-					});
-					if (id) {
+						delete qs.id;
+						response = await this.helpers.request({
+							method: 'GET',
+							uri,
+							qs,
+							headers: { Authorization: `Bearer ${credentials.apiToken}` },
+							json: true,
+						});
 						results.push({ json: response.data });
-					} else {
-						const first = Array.isArray(response.data) ? response.data[0] : response.data;
-						results.push({ json: first });
 					}
 				} else if (operation === 'getProduct') {
-					const id = this.getNodeParameter('id', i, '') as string;
 					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
 					let uri: string;
-					let qs: Record<string, string> = {};
-					if (id) {
-						uri = `${baseUrl}/products/${id}`;
+					let qs: Record<string, string> = { ...additionalFields };
+					let response;
+					if (additionalFields.id) {
+						uri = `${baseUrl}/products/${additionalFields.id}`;
+						try {
+							response = await this.helpers.request({
+								method: 'GET',
+								uri,
+								headers: { Authorization: `Bearer ${credentials.apiToken}` },
+								json: true,
+							});
+							results.push({ json: response.data });
+							continue;
+						} catch (error: any) {
+							if (error.statusCode === 404) {
+								// fallback to query param
+								uri = `${baseUrl}/products`;
+								qs = { ...additionalFields };
+								delete qs.id;
+								response = await this.helpers.request({
+									method: 'GET',
+									uri,
+									qs,
+									headers: { Authorization: `Bearer ${credentials.apiToken}` },
+									json: true,
+								});
+								results.push({ json: response.data });
+								continue;
+							}
+							throw error;
+						}
 					} else {
 						uri = `${baseUrl}/products`;
-						qs = { ...additionalFields };
-					}
-					const response = await this.helpers.request({
-						method: 'GET',
-						uri,
-						qs,
-						headers: { Authorization: `Bearer ${credentials.apiToken}` },
-						json: true,
-					});
-					if (id) {
+						delete qs.id;
+						response = await this.helpers.request({
+							method: 'GET',
+							uri,
+							qs,
+							headers: { Authorization: `Bearer ${credentials.apiToken}` },
+							json: true,
+						});
 						results.push({ json: response.data });
-					} else {
-						const first = Array.isArray(response.data) ? response.data[0] : response.data;
-						results.push({ json: first });
 					}
 				} else if (operation === 'getOrder') {
-					const id = this.getNodeParameter('id', i, '') as string;
 					const additionalFields = this.getNodeParameter('additionalFields', i, {}) as Record<string, string>;
 					let uri: string;
-					let qs: Record<string, string> = {};
-					if (id) {
-						uri = `${baseUrl}/orders/${id}`;
+					let qs: Record<string, string> = { ...additionalFields };
+					let response;
+					if (additionalFields.id) {
+						uri = `${baseUrl}/orders/${additionalFields.id}`;
+						try {
+							response = await this.helpers.request({
+								method: 'GET',
+								uri,
+								headers: { Authorization: `Bearer ${credentials.apiToken}` },
+								json: true,
+							});
+							results.push({ json: response.data });
+							continue;
+						} catch (error: any) {
+							if (error.statusCode === 404) {
+								// fallback to query param
+								uri = `${baseUrl}/orders`;
+								qs = { ...additionalFields };
+								delete qs.id;
+								response = await this.helpers.request({
+									method: 'GET',
+									uri,
+									qs,
+									headers: { Authorization: `Bearer ${credentials.apiToken}` },
+									json: true,
+								});
+								results.push({ json: response.data });
+								continue;
+							}
+							throw error;
+						}
 					} else {
 						uri = `${baseUrl}/orders`;
-						qs = { ...additionalFields };
-					}
-					const response = await this.helpers.request({
-						method: 'GET',
-						uri,
-						qs,
-						headers: { Authorization: `Bearer ${credentials.apiToken}` },
-						json: true,
-					});
-					if (id) {
+						delete qs.id;
+						response = await this.helpers.request({
+							method: 'GET',
+							uri,
+							qs,
+							headers: { Authorization: `Bearer ${credentials.apiToken}` },
+							json: true,
+						});
 						results.push({ json: response.data });
-					} else {
-						const first = Array.isArray(response.data) ? response.data[0] : response.data;
-						results.push({ json: first });
 					}
 				} else if (operation === 'createProduct') {
 					const body: any = {
