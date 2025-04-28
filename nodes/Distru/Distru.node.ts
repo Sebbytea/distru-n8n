@@ -30,8 +30,9 @@ export class Distru implements INodeType {
 			{
 				displayName: 'Operation',
 				name: 'operation',
-				type: 'string',
-				default: '',
+				type: 'options',
+				noDataExpression: true,
+				default: 'getCompany',
 				required: true,
 				options: [
 					{
