@@ -27,7 +27,7 @@ interface PurchaseItem extends BaseItem {
 	id: string;
 }
 
-interface PurchasePaymentItem extends BaseItem {
+interface postPurchasePaymentItem extends BaseItem {
 	product_id: string;
 	quantity: number;
 	price: number
@@ -36,7 +36,7 @@ interface PurchasePaymentItem extends BaseItem {
 	id: string;
 }
 
-type Item = PurchaseItem | PurchasePaymentItem;
+type Item = PurchaseItem | postPurchasePaymentItem;
 
 export class Distru implements INodeType {
 	description: INodeTypeDescription = {
@@ -67,7 +67,6 @@ export class Distru implements INodeType {
 				required: true,
 				default: 'getAssembly',
 				options: [
-					{ name: 'Create Batch', value: 'createBatch' },
 					{ name: 'Get Assembly', value: 'getAssembly' },
 					{ name: 'Get Batch', value: 'getBatch' },
 					{ name: 'Get Company', value: 'getCompany' },
@@ -83,10 +82,11 @@ export class Distru implements INodeType {
 					{ name: 'Get Stock Adjustment', value: 'getStockAdjustment' },
 					{ name: 'Get Strain', value: 'getStrain' },
 					{ name: 'Get User', value: 'getUser' },
-					{ name: 'Invoice Payment', value: 'invoicePayment' },
-					{ name: 'Purchase Payment', value: 'purchasePayment' },
-					{ name: 'Upsert Product', value: 'upsertProduct' },
+					{ name: 'Post Batch', value: 'postBatch' },
+					{ name: 'Post Invoice Payment', value: 'postInvoicePayment' },
+					{ name: 'Post Purchase Payment', value: 'postPurchasePayment' },
 					{ name: 'Upsert Invoice', value: 'upsertInvoice' },
+					{ name: 'Upsert Product', value: 'upsertProduct' },
 					{ name: 'Upsert Purchase', value: 'upsertPurchase' },
 					{ name: 'Upsert Sales Order', value: 'upsertOrder' },
 				],
@@ -449,42 +449,42 @@ export class Distru implements INodeType {
 			},
 
 			// --------- CREATE/UPSERT/UPDATE ENDPOINTS -------------
-			// createBatch
+			// postBatch
 			{
 				displayName: 'Product ID',
 				name: 'product_id',
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['createBatch'] } },
+				displayOptions: { show: { operation: ['postBatch'] } },
 			},
 			{
 				displayName: 'Owner ID',
 				name: 'owner_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createBatch'] } },
+				displayOptions: { show: { operation: ['postBatch'] } },
 			},
 			{
 				displayName: 'Batch Number',
 				name: 'batch_number',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createBatch'] } },
+				displayOptions: { show: { operation: ['postBatch'] } },
 			},
 			{
 				displayName: 'Expiration Date',
 				name: 'expiration_date',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createBatch'] } },
+				displayOptions: { show: { operation: ['postBatch'] } },
 			},
 			{
 				displayName: 'Description',
 				name: 'description',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createBatch'] } },
+				displayOptions: { show: { operation: ['postBatch'] } },
 			},
 			// createProduct & updateProduct
 			{
@@ -823,7 +823,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 			{
 				displayName: 'Payment Method ID',
@@ -831,7 +831,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 			{
 				displayName: 'Amount',
@@ -839,7 +839,7 @@ export class Distru implements INodeType {
 				type: 'number',
 				default: 0,
 				required: true,
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 			{
 				displayName: 'Payment Datetime',
@@ -847,28 +847,28 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 			{
 				displayName: 'Description',
 				name: 'description',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 			{
 				displayName: 'Quickbooks Deposit Account ID',
 				name: 'quickbooks_deposit_account_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 			{
 				displayName: 'Quickbooks Deposit Account Name',
 				name: 'quickbooks_deposit_account_name',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['invoicePayment'] } },
+				displayOptions: { show: { operation: ['postInvoicePayment'] } },
 			},
 
 			// ----------- Purchase Payment ---------
@@ -878,7 +878,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 			{
 				displayName: 'Payment Method ID',
@@ -886,7 +886,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 			{
 				displayName: 'Amount',
@@ -894,7 +894,7 @@ export class Distru implements INodeType {
 				type: 'number',
 				default: 0,
 				required: true,
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 			{
 				displayName: 'Payment Date',
@@ -902,28 +902,28 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 			{
 				displayName: 'Description',
 				name: 'description',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 			{
 				displayName: 'Quickbooks Deposit Account ID',
 				name: 'quickbooks_deposit_account_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 			{
 				displayName: 'Quickbooks Deposit Account Name',
 				name: 'quickbooks_deposit_account_name',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['purchasePayment'] } },
+				displayOptions: { show: { operation: ['postPurchasePayment'] } },
 			},
 
 			// -------- Upsert Invoice ---------
@@ -1292,7 +1292,7 @@ export class Distru implements INodeType {
 					} else {
 						results.push({ json: response.data });
 					}
-				} else if (operation === 'createBatch') {
+				} else if (operation === 'postBatch') {
 					const ownerId = this.getNodeParameter('owner_id', i, '') as string;
 					const productId = this.getNodeParameter('product_id', i, '') as string;
 					const batchNumber = this.getNodeParameter('batch_number', i, '') as string;
@@ -1424,7 +1424,7 @@ export class Distru implements INodeType {
 						json: true,
 					});
 					results.push({ json: response });
-				} else if (operation === 'invoicePayment') {
+				} else if (operation === 'postInvoicePayment') {
 					const invoiceId = this.getNodeParameter('invoice_id', i, '') as string;
 					const paymentMethodId = this.getNodeParameter('payment_method_id', i, '') as string;
 					const amount = this.getNodeParameter('amount', i, 0) as number;
@@ -1458,7 +1458,7 @@ export class Distru implements INodeType {
 				} else if (operation === 'upsertInvoice') {
 					// Upsert invoice parameters extraction and POST call (fill per your param structure)
 					throw new NodeOperationError(this.getNode(), 'Upsert Invoice operation is not yet implemented');
-				} else if (operation === 'purchasePayment') {
+				} else if (operation === 'postPurchasePayment') {
 					// Purchase payment parameters extraction and POST call
 					throw new NodeOperationError(this.getNode(), 'Purchase Payment operation is not yet implemented');
 				} else if (operation === 'upsertPurchase') {
@@ -1478,13 +1478,13 @@ export class Distru implements INodeType {
 						};
 						// ... rest of the code ...
 					}
-				} else if (operation === 'upsertPurchasePayment') {
+				} else if (operation === 'upsertpostPurchasePayment') {
 					const purchaseData = this.getNodeParameter('purchaseData', i) as Record<string, any>;
-					const items = this.getNodeParameter('items', i) as PurchasePaymentItem[];
+					const items = this.getNodeParameter('items', i) as postPurchasePaymentItem[];
 					
 					for (const item of items) {
 						// Process each item
-						const itemData: PurchasePaymentItem = {
+						const itemData: postPurchasePaymentItem = {
 							product_id: item.product_id,
 							quantity: item.quantity,
 							price: item.price,
