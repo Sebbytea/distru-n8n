@@ -68,7 +68,6 @@ export class Distru implements INodeType {
 				default: 'getAssembly',
 				options: [
 					{ name: 'Create Batch', value: 'createBatch' },
-					{ name: 'Create Product', value: 'createProduct' },
 					{ name: 'Get Assembly', value: 'getAssembly' },
 					{ name: 'Get Batch', value: 'getBatch' },
 					{ name: 'Get Company', value: 'getCompany' },
@@ -86,7 +85,7 @@ export class Distru implements INodeType {
 					{ name: 'Get User', value: 'getUser' },
 					{ name: 'Invoice Payment', value: 'invoicePayment' },
 					{ name: 'Purchase Payment', value: 'purchasePayment' },
-					{ name: 'Update Product', value: 'updateProduct' },
+					{ name: 'Upsert Product', value: 'upsertProduct' },
 					{ name: 'Upsert Invoice', value: 'upsertInvoice' },
 					{ name: 'Upsert Purchase', value: 'upsertPurchase' },
 					{ name: 'Upsert Sales Order', value: 'upsertOrder' },
@@ -493,8 +492,8 @@ export class Distru implements INodeType {
 				name: 'id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['updateProduct'] } },
-				description: 'Product ID to update (update only)',
+				displayOptions: { show: { operation: ['upsertProduct'] } },
+				description: 'Product ID to update (optional for new products)',
 			},
 			{
 				displayName: 'Name',
@@ -502,21 +501,21 @@ export class Distru implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'SKU',
 				name: 'sku',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Description',
 				name: 'description',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Inventory Tracking Method',
@@ -528,98 +527,98 @@ export class Distru implements INodeType {
 					{ name: 'BATCH', value: 'BATCH' },
 				],
 				default: 'PACKAGE',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Category ID',
 				name: 'category_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Subcategory ID',
 				name: 'subcategory_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Group ID',
 				name: 'group_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Brand ID',
 				name: 'brand_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Vendor ID',
 				name: 'vendor_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Unit Price',
 				name: 'unit_price',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Unit Cost',
 				name: 'unit_cost',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'MSRP',
 				name: 'msrp',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Wholesale Unit Price',
 				name: 'wholesale_unit_price',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'UPC',
 				name: 'upc',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Units per Case',
 				name: 'units_per_case',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Is Featured',
 				name: 'is_featured',
 				type: 'boolean',
 				default: false,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Is Inactive',
 				name: 'is_inactive',
 				type: 'boolean',
 				default: false,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Menu Visibility',
@@ -631,7 +630,7 @@ export class Distru implements INodeType {
 					{ name: 'NONE', value: 'NONE' },
 				],
 				default: 'INCLUDE_IN_ALL',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Menus',
@@ -639,7 +638,7 @@ export class Distru implements INodeType {
 				type: 'string',
 				typeOptions: { multipleValues: true, multipleValueButtonText: 'Add Menu' },
 				default: [],
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Tags',
@@ -647,21 +646,21 @@ export class Distru implements INodeType {
 				type: 'string',
 				typeOptions: { multipleValues: true, multipleValueButtonText: 'Add Tag' },
 				default: [],
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Total THC',
 				name: 'total_thc',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Total CBD',
 				name: 'total_cbd',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Total Cannabinoid Unit',
@@ -673,49 +672,49 @@ export class Distru implements INodeType {
 					{ name: 'MG_PER_CONTAINER', value: 'MG_PER_CONTAINER' },
 				],
 				default: 'PERCENT',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Unit Type ID',
 				name: 'unit_type_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Unit Net Weight',
 				name: 'unit_net_weight',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Unit Serving Size',
 				name: 'unit_serving_size',
 				type: 'number',
 				default: 0,
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Unit Net Weight and Serving Size Unit Type ID',
 				name: 'unit_net_weight_and_serving_size_unit_type_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Strain ID',
 				name: 'strain_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			{
 				displayName: 'Owner ID',
 				name: 'owner_id',
 				type: 'string',
 				default: '',
-				displayOptions: { show: { operation: ['createProduct', 'updateProduct'] } },
+				displayOptions: { show: { operation: ['upsertProduct'] } },
 			},
 			// -------- End Product Fields --------
 
@@ -1319,13 +1318,8 @@ export class Distru implements INodeType {
 					});
 
 					results.push({ json: response.data ?? response });
-				} else if (operation === 'createProduct' || operation === 'updateProduct') {
-					const isUpdate = operation === 'updateProduct';
-					const id = isUpdate ? (this.getNodeParameter('id', i, '') as string) : undefined;
-					if (isUpdate && !id) {
-						throw new NodeOperationError(this.getNode(), 'Product ID is required for update operation.');
-					}
-
+				} else if (operation === 'upsertProduct') {
+					const id = this.getNodeParameter('id', i, '') as string;
 					const body: any = {
 						name: this.getNodeParameter('name', i, ''),
 						sku: this.getNodeParameter('sku', i, ''),
@@ -1366,7 +1360,7 @@ export class Distru implements INodeType {
 						body.menus = menus;
 					}
 
-					const uri = isUpdate ? `${baseUrl}/products/${id}` : `${baseUrl}/products`;
+					const uri = id ? `${baseUrl}/products/${id}` : `${baseUrl}/products`;
 					const response = await this.helpers.request({
 						method: 'POST', // API uses POST for both create and update
 						uri,
